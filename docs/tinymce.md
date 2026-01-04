@@ -1,6 +1,7 @@
 # Tinymce
 
 ## Usage
+<!-- <script src="path/to/static/tinymce/tinymce.min.js?v=0.1.0"></script> -->
 ```import Tinymce from 'iruxu-editor/src/components/Tinymce.vue```
 
 
@@ -18,15 +19,3 @@
 | `uploadDomain` | 附件CDN拼接域名 | `String` | `""` | 否 | 附件开启时才有用 |
 
 
-## Tinymce特性
-+ 基于tinymce v5.2.2扩展
-+ 保留v4版本分割线规则
-+ 内置powerpaste&checklist插件
-+ 增加插入B站视频插件
-+ 增加插入折叠文本插件
-+ 增加mathjax支持latex
-
-## Tinymce插件添加步骤
-1. tinymce/icons/custom/icons.js 添加svg图标,需设置尺寸,注意视口大小,移除换行符等
-2. tinymce/plugins目录，复制videox(input),foldtext(null)目录作为参考新建插件目录，替换videox为新插件名
-3. 编辑器配置中激活插件和添加工具栏项
