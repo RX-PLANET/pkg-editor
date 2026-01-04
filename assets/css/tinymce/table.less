@@ -1,0 +1,51 @@
+/* 表格 */
+.c-article-tinymce {
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        height: auto;
+        margin: 10px 0;
+        overflow-x: auto;
+        max-width: 100%;
+        border: none;
+
+        line-height: 2.2;
+        color: @color;
+
+        td,
+        th {
+            padding: 6px 10px;
+        }
+        td {
+            border: 1px solid #eee;
+        }
+        tr:nth-child(2n + 1) {
+            background-color: @bg-light;
+        }
+        tr:first-child {
+            background-color: @bg-light;
+            font-weight: 600;
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .c-article-tinymce {
+        table {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+
+            th,
+            td {
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+@media print {
+    table {
+        page-break-inside: avoid !important;
+    }
+}

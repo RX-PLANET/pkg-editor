@@ -1,0 +1,80 @@
+// tinymce编辑器样式
+.c-editor-header {
+    .mb(10px);
+    .clearfix;
+
+    .c-upload,
+    .c-resource {
+        .fl;
+    }
+    .c-upload {
+        .mr(5px);
+    }
+}
+
+.c-editor-emotion {
+    max-height: 168px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-track-piece {
+        background-color: #fafafa;
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #eee;
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-button,
+    &::-webkit-scrollbar-corner,
+    &::-webkit-resizer {
+        display: none;
+    }
+}
+
+.c-editor-tinymce {
+    .u-tutorial {
+        padding: 0 10px;
+        .mt(10px);
+        .mb(10px);
+        .fz(13px,32px);
+        .el-alert__icon.is-big {
+            .fz(18px);
+        }
+        .el-alert__content {
+            padding-left: 0;
+        }
+        .el-alert__closebtn {
+            top: 12px;
+        }
+        a {
+            color: @primary;
+        }
+        a:hover {
+            box-shadow: 0 1px 0 @primary;
+        }
+        .el-alert__description {
+            margin: 0 !important;
+        }
+    }
+
+    .t-emotion {
+        padding: unset;
+        border: unset;
+        margin: unset;
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .c-editor-tinymce {
+        .u-tutorial {
+            .none;
+        }
+    }
+}

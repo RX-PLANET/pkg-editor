@@ -1,0 +1,22 @@
+name: Deploy to OSS
+on:
+    push:
+        branches:
+            - master
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  persist-credentials: false
+
+            # TODO: 设置桶
+            - name: OSS
+              uses: manyuanrong/setup-ossutil@v2.0
+              with:
+                  endpoint: "oss-cn-hangzhou.aliyuncs.com"
+                  access-key-id: ${{secrets.ACCESSKEY_ID}}
+                  access-key-secret: ${{secrets.ACCESS_KEY_SECRET}}
+            - run: ossutil cp -rf dist oss://桶名称/路径/子路径

@@ -1,0 +1,59 @@
+.c-article-editor {
+    .mce-pagebreak {
+        padding: 0;
+        outline: none;
+        border: none;
+        border-top: 1px dashed #aaa;
+        height: 10px !important;
+        margin: 20px auto;
+    }
+}
+.c-article-chunk {
+    display: none;
+    &.on {
+        display: block;
+    }
+}
+.c-article-all {
+    width: 100%;
+    margin: 10px auto !important;
+    display: block !important;
+}
+.c-article-pages {
+    margin: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    text-align: center;
+    justify-content: center;
+
+    .el-pager {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+// 打印分页
+.c-article {
+    .e-print-pagebreak {
+        .none;
+    }
+}
+.c-article-editor {
+    .e-print-pagebreak {
+        .db;
+        border: none;
+        border-bottom: 1px dotted #7ddcf9;
+        font-size: 0;
+        width: 100%;
+        height: 0;
+        box-sizing: border-box;
+        margin: 0 !important;
+    }
+}
+@media print {
+    .c-article {
+        .e-print-pagebreak {
+            page-break-after: always;
+        }
+    }
+}

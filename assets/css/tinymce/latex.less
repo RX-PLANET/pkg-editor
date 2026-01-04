@@ -1,0 +1,47 @@
+// 编辑器内样式
+.c-article-tinymce {
+    .w-latex {
+        .pr;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        &:after {
+            content: "Latex";
+            position: absolute;
+            right: 0;
+            top: -30px;
+            background-color: @bg-black;
+            color: #fff;
+            border-radius: 3px;
+            padding: 0 8px;
+            line-height: 28px;
+            height: 28px;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: consolas;
+        }
+    }
+}
+.c-article-editor {
+    .e-latex-area {
+        min-height: 24px;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 14px;
+        white-space: pre-wrap;
+        background-color: #f1f8ff;
+        border: 1px solid #c8e1ff;
+        color: darken(#c8e1ff, 20%);
+        font-family: Georgia, "Times New Roman", Times, serif;
+        .pr;
+        &:after {
+            content: "Latex";
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: darken(#c8e1ff, 20%);
+            color: #fff;
+            border-radius: 3px;
+            padding: 0 8px;
+            font-family: consolas;
+        }
+    }
+}

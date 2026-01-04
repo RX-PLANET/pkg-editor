@@ -1,0 +1,35 @@
+.c-article-tinymce {
+    video {
+        background-color: #333;
+        width: 100%;
+        height: 800px;
+        display: block;
+        cursor: pointer;
+    }
+}
+.c-article-videox {
+    iframe,
+    iframe[allowfullscreen="allowfullscreen"] {
+        width: 100%;
+        height: 800px;
+        border: 1px solid #eee;
+        box-sizing: border-box;
+    }
+}
+.c-article-editor {
+    video,
+    iframe {
+        cursor: default;
+    }
+    iframe {
+        width: auto;
+        height: auto;
+    }
+}
+@media screen and (max-width: @ipad) {
+    .c-article video,
+    .c-article-videox iframe {
+        height: auto;
+        min-height: 200px;
+    }
+}

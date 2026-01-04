@@ -1,0 +1,111 @@
+.c-upload {
+    .u-icon {
+        margin-right: 5px;
+    }
+
+    .u-upload-clear {
+        .pa;
+        .lt(70px, 20px);
+    }
+    .u-upload-tip {
+        padding-right: 10px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        .el-alert__title {
+            .fz(12px, 16px);
+            padding-right: 20px;
+            .db;
+            .nobreak;
+        }
+        .mb(20px);
+    }
+
+    .el-dialog__body {
+        padding-top: 0;
+    }
+
+    .el-upload-list li {
+        outline: none;
+    }
+
+    .el-upload-list__item {
+        &:hover {
+            border: 1px solid #13ce66;
+        }
+    }
+
+    // 列表
+    .u-file-wrapper {
+        .size(100%);
+        &.isSelected {
+        }
+        &.disabled {
+            cursor: default;
+            opacity: 0.38;
+            border-color: #eee;
+            .u-fileplaceholder {
+                fill: #aaa;
+            }
+        }
+        .pointer;
+    }
+    .u-filebox {
+        .x;
+        padding: 37px;
+    }
+    .u-fileplaceholder {
+        width: 40px;
+        height: 40px;
+        fill: @primary;
+    }
+    .u-filename {
+        .db;
+        .nobreak;
+    }
+
+    // 勾选
+    .u-file-select-label {
+        position: absolute;
+        right: -15px;
+        top: -6px;
+        width: 40px;
+        height: 24px;
+        background: #13ce66;
+        text-align: center;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        -webkit-box-shadow: 0 0 1pc 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 1pc 1px rgba(0, 0, 0, 0.2);
+
+        i {
+            font-size: 12px;
+            margin-top: 12px;
+            transform: rotate(-45deg);
+        }
+    }
+
+    .c-large-dialog {
+        &.el-dialog {
+            .w(60%);
+            height: 70%;
+            .el-dialog__body {
+                height: calc(100% - 100px);
+                overflow-y: auto;
+                box-sizing: border-box;
+            }
+        }
+    }
+    @media screen and (max-width: @notebook) {
+        .c-large-dialog .el-dialog {
+            .w(90%);
+        }
+    }
+    @media screen and (max-width: @ipad-y) {
+        .c-large-dialog .el-dialog {
+            margin: 0 !important;
+            .size(100%);
+            max-height: none;
+            .h(100%);
+        }
+    }
+}

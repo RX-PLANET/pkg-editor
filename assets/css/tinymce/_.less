@@ -1,0 +1,28 @@
+.c-article-tinymce {
+    font-size: 1em;
+    line-height: 1.8;
+    color: @color;
+    max-width: 100%;
+    -webkit-font-smoothing: antialiased !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, "Microsoft YaHei", Trebuchet MS, Calibri,
+        BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, sans-serif;
+    text-rendering: optimizelegibility;
+
+    * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+.c-article-editor {
+    margin: 8px;
+}
+.c-article-origin {
+    display: none;
+}
+@media print {
+    .c-article-tinymce {
+        -webkit-print-color-adjust: exact;
+    }
+}
