@@ -1,0 +1,263 @@
+<!-- ========== 字体与颜色（style允许） ========== -->
+<h1>1.字体</h1>
+<p>
+  <span style="font-size: 12px;">12px</span>，
+  <span style="font-size: 14px;">14px</span>，
+  16px，
+  <span style="font-size: 18px;">18px</span>，
+  <span style="font-size: 22px;">22px</span>，
+  <span style="font-size: 24px;">24px</span>，
+  <span style="font-size: 26px;">26px</span>，
+  <span style="font-size: 28px;">28px</span>，
+  <span style="font-size: 32px;">32px</span>，
+  <span style="font-size: 48px;">48px</span>，
+  <span style="font-size: 72px;">72px</span>
+</p>
+<p>
+  <span style="color: #ff99cc;">粉粉の</span>，
+  <span style="color: #00ff00; background-color: #000000;">辣眼睛</span>，
+  <span style="color: #cc99ff; background-color: #ccffff;">柔和</span>
+</p>
+<p>
+  <strong>粗体</strong>，
+  <em>斜体</em>，
+  <span style="text-decoration: underline;">下划线</span>，
+  <span style="text-decoration: line-through;">删除线</span>，
+  <sup>上标</sup>，
+  <sub>下标</sub>
+</p>
+
+
+<!-- ========== 链接：站内/站外/相对/锚点 ========== -->
+<h1>2.链接</h1>
+
+<p id="anchor-top">锚点目标：anchor-top（用于 # 跳转）</p>
+
+<p>
+  站外绝对链接：
+  <a href="https://www.2kog.com" rel="noopener">通配白名单</a>
+  <a href="https://iruxu.com" rel="noopener" target="_blank">匹配白名单·新窗</a>
+  <a href="https://test.example.com" rel="noopener">非白名单·自动新窗</a>
+  <a href="https://evil.example.com" rel="noopener">非白名单·严格模式自动过滤</a>
+</p>
+
+<p>
+  站内相对链接：
+  <a href="/emotion/940" target="_blank">/emotion/940（自带新窗）</a>，
+  <a href="author/8">author/8 （无新窗）</a>，
+  <a href="./relative/path">./relative/path</a>
+</p>
+
+<p>
+  锚点链接：
+  <a href="#anchor-top">跳到 anchor-top</a>
+</p>
+
+<!-- ========== 标题 ========== -->
+<h1>3.标题</h1>
+<h1>1级标题</h1>
+<h2>2级标题</h2>
+<h3>3级标题</h3>
+<h4>4级标题</h4>
+<h5>5级标题</h5>
+<h6>6级标题</h6>
+
+<!--nextpage-->
+
+<!-- ========== 对齐与缩进 ========== -->
+<h1>4.对齐与缩进</h1>
+<p style="text-align: right;">右对齐内容</p>
+<p style="text-align: center;">居中对齐</p>
+<p style="text-align: left; padding-left: 40px;">缩进内容（padding-left）</p>
+<p>&nbsp;</p>
+
+<!-- ========== 列表：无序/有序/checklist ========== -->
+<h1>5.列表</h1>
+<ul>
+  <li>无序列表 1</li>
+  <li>无序列表 2</li>
+</ul>
+
+<ol>
+  <li>有序列表 1</li>
+  <li>有序列表 2</li>
+</ol>
+
+<ul class="tox-checklist">
+  <li>checklist 未勾选</li>
+  <li class="tox-checklist--checked">checklist 已勾选</li>
+</ul>
+
+<div class="e-checklist">
+  <div class="on">旧版checklist：on</div>
+  <div>旧版checklist：off</div>
+</div>
+
+<!-- ========== 表格与引用 ========== -->
+<h1>6.表格与引用</h1>
+
+<table style="border-collapse: collapse; width: 100%;" border="1">
+  <tbody>
+    <tr>
+      <td style="width: 25%;">表格</td>
+      <td style="width: 25%;">1</td>
+      <td style="width: 25%;">2</td>
+      <td style="width: 25%;">3</td>
+    </tr>
+    <tr>
+      <td style="width: 25%;">4</td>
+      <td style="width: 25%;">5</td>
+      <td style="width: 25%;">6</td>
+      <td style="width: 25%;">7</td>
+    </tr>
+    <tr>
+      <td style="width: 25%;">8</td>
+      <td style="width: 25%;">9</td>
+      <td style="width: 25%;">10</td>
+      <td style="width: 25%;">&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>引用内容：用于测试 blockquote 渲染、行高、内边距、换行表现。</p>
+  <p>引用内容：用于测试 blockquote 渲染、行高、内边距、换行表现。</p>
+</blockquote>
+
+<!-- ========== 折叠文本（summary/details） ========== -->
+<h1>7.折叠文本</h1>
+<pre class="e-summary">折叠头文本:e-summary<br />哈哈哈哈哈</pre>
+<pre class="e-details">被折叠区域文本:e-details</pre>
+
+<!--nextpage-->
+
+<!-- ========== 图片：普通、lazy、相对路径、属性 ========== -->
+<h1>8.图片</h1>
+
+<p>普通图片（绝对地址）：</p>
+<p>
+  <img src="https://cdn.jx3box.com/image/common/avatar.png?x-oss-process=style/avatar_s" alt="img-abs" />
+</p>
+
+<p>已有 lazy 的图片（测试不重复/不破坏）：</p>
+<p>
+  <img loading="lazy" src="https://cdn.jx3box.com/image/common/avatar.png?x-oss-process=style/avatar_s" alt="img-lazy" />
+</p>
+
+<p>相对路径图片（测试 cdnDomain 拼接逻辑）：</p>
+<p>
+  <img src="/test/mii.png" alt="img-relative-root" />
+  <img src="/test/time.svg" alt="img-relative-root2" style="width:60px"/>
+</p>
+
+
+<!-- ========== 媒体：video + iframe 白名单 ========== -->
+<h1>9.媒体</h1>
+
+<p>video（mp4）：</p>
+<video controls width="360" height="180">
+  <source src="https://static.jx3.xoyo.com/video/20090828/CG1_fengqidaoxiang.mp4" type="video/mp4" />
+</video>
+
+<p>B站 iframe（白名单：player.bilibili.com）</p>
+<iframe class="w-player-bilibili"
+  src="//player.bilibili.com/player.html?bvid=BV1J24y1B7T3&autoplay=0"
+  frameborder="0"
+  scrolling="no"
+  allowfullscreen="allowfullscreen">
+</iframe>
+
+<p>非白名单 iframe（应被移除或 src 置空）：</p>
+<iframe src="https://evil.example.com/xss.html" width="360" height="180"></iframe>
+
+<!--nextpage-->
+
+<!-- ========== 8. 代码与语法高亮 ========== -->
+<h2>代码：inline + code block</h2>
+
+<p>行内代码：<code>npm run dev</code>、<code>const a = 1</code></p>
+
+<pre class="language-javascript"><code>function print() {
+  console.log("hello world");
+}
+// &lt;script&gt; in code should not execute
+</code></pre>
+
+
+<!-- ========== 12. 安全检测：脚本/事件/协议/style ========== -->
+<h2>安全检测：XSS 最小危险集</h2>
+
+<h3>安全检测1：script 标签（应被移除）</h3>
+<script>alert("xss-script-tag")</script>
+
+<h3>安全检测2：on* 事件属性（应被移除）</h3>
+<p>
+  <img src="x" onerror="alert('xss-onerror')" alt="xss-onerror" />
+  <a href="https://example.com" onclick="alert('xss-onclick')">onclick 测试</a>
+</p>
+
+<h3>安全检测3：javascript: 协议（应被置空或移除）</h3>
+<p>
+  <a href="javascript:alert('xss-js-href')">javascript: href</a>
+</p>
+
+<h3>安全检测4：style 中的 @import / url(（应被清理）</h3>
+<p style="@import url(https://evil.example.com/x.css); color: red;">@import 测试</p>
+<p style="background-image: url(https://evil.example.com/track.png); padding: 10px; border: 1px solid #ccc;">
+  url() 测试（背景图）
+</p>
+
+<!--nextpage-->
+
+
+<!-- ========== 11. 自定义：宏、奇穴、资源块 ========== -->
+<h2>自定义：宏 / 奇穴 / 资源块</h2>
+
+<pre class="e-jx3macro-area w-jx3macro">/cast [nobuff:虫兽] 灵蛇引
+/cast 蛊虫献祭
+/cast [buff:灵蛇献祭] 蛊虫狂暴
+/fcast 幻击
+/fcast攻击
+/cast 蛇影</pre>
+
+<hr />
+
+<p>旧版奇穴（input）：</p>
+<p>
+  <input class="e-jx3qixue-area" type="text"
+    value="{&quot;version&quot;:&quot;v20200113&quot;,&quot;xf&quot;:&quot;焚影圣诀&quot;,&quot;sq&quot;:&quot;2,2,3,1,1,1,1,1,1,3,4,1&quot;}" />
+</p>
+
+<p>新版奇穴（div json）：</p>
+<div class="e-jx3qixue-area">{"version":"v20240725","xf":"凌海诀","sq":"1,1,1,1","client":"wujie"}</div>
+
+<p>资源插入：</p>
+<p><img class="e-jx3-icon" title="IconID:2588" src="https://console.cnyixun.com/icon/2588.png" /></p>
+
+<pre class="e-jx3-resource"><span class="u-id">ID:551</span>
+  <img class="u-pic" title="IconID:898" src="https://console.cnyixun.com/icon/898.png" />
+  <span class="u-name">心鼓弦</span>
+  <span class="u-desc">救治一个重伤的友方目标，可在战斗中使用。</span>
+</pre>
+
+<hr />
+
+<h2>剑三元素：表情、作者、配装 iframe 预处理占位</h2>
+
+<p>#TT哭泣</p>
+<a data-type="emotion" class="e-jx3-emotion w-jx3-element" data-id="940" target="_blank" href="/emotion/940">
+  <img class="e-jx3-emotion-img" data-type="emotion" data-id="940" style="width:80px;" src="https://console.cnyixun.com/upload/post/2022/6/10/76986_7373574.gif" alt="940" />
+</a>
+
+<p>
+  <a class="e-jx3-author w-jx3-element" href="/author/8" target="_blank" rel="noopener" data-type="author" data-mode="" data-id="8">@浮烟</a>
+</p>
+
+<pre class="e-pz-iframe">https://www.jx3box.com/pz/iframe.html?id=25402&amp;mode=horizontal</pre>
+
+<p>
+  文件下载链接：
+  <a href="https://cdn.jx3box.com/2020/01/%E5%87%8C%E9%9B%AA%E9%98%81%E8%AE%A1%E7%AE%97%E5%99%A83.2%EF%BC%88%E6%9B%B4%E6%96%B0%E5%A4%A7%E9%99%84%E9%AD%94%EF%BC%89.xlsx">
+    凌雪阁计算器（xlsx）
+  </a>
+</p>

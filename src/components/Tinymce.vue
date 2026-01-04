@@ -3,7 +3,7 @@
         <slot name="prepend"></slot>
 
         <div class="c-editor-header">
-            <Upload v-if="attachmentEnable" @insert="insertAttachments" :uploadFn="uploadFn" :domain="domain" />
+            <Upload v-if="attachmentEnable" @insert="insertAttachments" :uploadFn="uploadFn" :domain="uploadDomain" />
         </div>
 
         <slot></slot>
@@ -29,39 +29,54 @@
 import Editor from "@tinymce/tinymce-vue";
 import Upload from "./Upload";
 import hljs_languages from "../assets/js/hljs_languages.js";
+import GlobalConf from '../../config/global.js';
 
 export default {
-    name: "LightTinymce",
+    name: "Tinymce",
     props: {
+        // 内容
         modelValue: {
             type: String,
             default: "",
         },
+        // 默认高度
         height: {
             type: Number,
             default: 800,
         },
-        attachmentEnable: {
-            type: Boolean,
-            default: true,
+        // Tinymce右键粘贴上传函数
+        tinymceUploadFn: {
+            type: Function,
+            default: () => {},
         },
+        // Tinymce资源CDN拼接域名
+        tinymceCdnDomain: {
+            type: String,
+            default: "",
+        },
+        // 是否显示编辑器使用提示
         showTips: {
             type: Boolean,
             default: true,
         },
+
+
+        // 是否启用附件上传
+        attachmentEnable: {
+            type: Boolean,
+            default: true,
+        },
+        // 附件上传函数
         uploadFn: {
             type: Function,
             default: () => {},
         },
-        domain: {
+        // 附件CDN拼接域名
+        uploadDomain: {
             type: String,
             default: "",
         },
-        uploadUrl: {
-            type: String,
-            default: "",
-            required: true,
-        },
+
     },
     emits: ["update:modelValue"],
     data: function () {
@@ -78,9 +93,7 @@ export default {
                 convert_urls: false,
 
                 // 样式
-                // TODO:
-                content_css: `${this.domain}/static/tinymce/skins/content/default/content.min.css`,
-                // content_css: `http://localhost:5000/skins/content/default/content.min.css`,
+                content_css: process.env.NODE_ENV === "production" ? `${this.tinymceCdnDomain}/static/tinymce/skins/content/default/content.min.css` : `http://localhost:5120/skins/content/default/content.min.css`,
                 body_class: "c-article c-article-editor c-article-tinymce",
                 height: this.height || 800,
                 autosave_ask_before_unload: false,
@@ -90,75 +103,12 @@ export default {
                 menubar: false,
                 branding: false,
                 contextmenu: "",
-                plugins: [
-                    "link autolink",
-                    "hr lists advlist table codeinline codesample checklist foldtext latex",
-                    "image emoticons media",
-                    "code fullscreen wordcount powerpaste pagebreak printpage", // template anchor jx3icon autosave
-                ],
-                toolbar: [
-                    "undo | forecolor backcolor | bold italic underline strikethrough | fullscreen", //restoredraft
-                    // "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codeinline codesample latex | image media", // template anchor jx3icon
-                ],
-                mobile: {
-                    toolbar_drawer: true,
-                    toolbar: [
-                        "undo emoticons bold forecolor backcolor removeformat pagebreak fullscreen",
-                        // "hr alignleft aligncenter alignright alignjustify indent outdent bullist numlist checklist table blockquote codesample latex media",
-                    ],
-                },
+                plugins: GlobalConf.plugins,
+                toolbar: GlobalConf.toolbar,
+                mobile: GlobalConf.mobile,
                 block_formats: "段落=p;一级标题=h1;二级标题=h2;三级标题=h3;四级标题=h4;五级标题=h5;六级标题=h6;",
                 fontsize_formats: "12px 14px 16px 18px 22px 24px 26px 28px 32px 48px 72px",
-                color_map: [
-                    "FF99CC",
-                    "浅粉",
-                    "FF3399",
-                    "深粉",
-                    "FF0000",
-                    "正红",
-                    "CC99FF",
-                    "紫色",
-                    "9933ff",
-                    "深紫",
-
-                    "FFFF99",
-                    "浅黄",
-                    "FFFF00",
-                    "金黄",
-                    "FFCC00",
-                    "亮黄",
-                    "FFCC99",
-                    "浅桃",
-                    "FF6600",
-                    "橘色",
-
-                    "CCFFCC",
-                    "浅绿",
-                    "9bf915",
-                    "荧光绿",
-                    "00FF00",
-                    "辣眼绿",
-                    "49c10f",
-                    "深绿",
-                    "008080",
-                    "深青",
-
-                    "CCFFFF",
-                    "浅蓝",
-                    "00FFFF",
-                    "参考线",
-                    "00CCFF",
-                    "天蓝",
-                    "99CCFF",
-                    "蔚蓝",
-                    "0000FF",
-                    "辣眼蓝",
-
-                    "CC0000",
-                    "深红",
-                    "000000",
-                    "黑色",
-                ],
+                color_map: GlobalConf.color_map,
 
                 codesample_languages: hljs_languages,
 

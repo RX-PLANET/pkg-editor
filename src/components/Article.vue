@@ -42,11 +42,11 @@ import { ElPagination, ElButton } from "element-plus";
 import "element-plus/dist/index.css";
 
 // XSS
-import execFilterXSS from "../assets/js/script";
+import execFilterXSS from "../assets/js/xss";
 // const execFilterXSS = require("xss");
-const xss_options = {
-    allowCommentTag: true,
-};
+// const xss_options = {
+//     allowCommentTag: true,
+// };
 
 // 基本文本
 import execLazyload from "../assets/js/img";
@@ -64,15 +64,39 @@ import renderImgPreview from "../assets/js/renderImgPreview";
 export default {
     name: "ArticleRender",
     props: {
+        // 内容
         content: String,
+
+        // 拼接相对路径地址的图片，需要自带协议
+        cdnDomain: {
+            type: String,
+            default: "",
+        },
+        // 链接白名单检查，不在白名单，使用新窗跳转
+        linkWhitelist: {
+            type: Array,
+            default: function () {
+                return [];
+            },
+        },
+        // 链接白名单强制模式，开启后不在白名单的链接一律置空，不允许跳转
+        linkStrict: {
+            type: Boolean,
+            default: false,
+        },
+        // iframe白名单检查，不在白名单，移除iframe
+        iframeWhitelist: {
+            type: Array,
+            default: function () {
+                return [];
+            },
+        },
+        // 目录容器选择器
         directorybox: String,
+        // 是否开启分页
         pageable: {
             type: Boolean,
             default: true,
-        },
-        domain: {
-            type: String,
-            default: "",
         },
     },
     data: function () {
@@ -102,10 +126,10 @@ export default {
         doReg: function (data) {
             if (data) {
                 // 过滤内容
-                data = execLazyload(data, this.domain);
-                data = execFilterIframe(data);
-                data = execFilterXSS(data, xss_options);
-                data = execFilterLink(data);
+                data = execLazyload(data, this.cdnDomain);
+                data = execFilterIframe(data, this.iframeWhitelist);
+                // data = execFilterXSS(data);
+                data = execFilterLink(data, this.linkWhitelist, this.linkStrict);
                 return data;
             } else {
                 return "";

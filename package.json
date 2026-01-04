@@ -4,7 +4,9 @@
     "description": "Custom Tinymce、Article Renderer",
     "scripts": {
         "serve": "vue-cli-service serve",
-        "dev": "serve -l 5120 ./tinymce",
+        "dev:vue": "vue-cli-service serve",
+        "dev:tinymce": "serve -l 5120 ./tinymce",
+        "dev": "npm run dev:vue & npm run dev:tinymce",
         "build": "npx lessc -x ./tinymce/skins/content/default/content.less ./tinymce/skins/content/default/content.min.css",
         "lint": "vue-cli-service lint"
     },
@@ -12,11 +14,13 @@
         "@element-plus/icons-vue": "^2.0.10",
         "@tinymce/tinymce-vue": "^5.0.0",
         "axios": "^1.3.2",
+        "cheerio": "^1.1.2",
         "element-plus": "^2.2.29",
         "highlight.js": "^11.7.0",
         "jquery": "^3.5.1",
         "katex": "^0.16.4",
         "lodash": "^4.17.21",
+        "sanitize-html": "^2.17.0",
         "uuid": "^9.0.1",
         "viewerjs": "^1.11.3",
         "vue": "^3.2.13"

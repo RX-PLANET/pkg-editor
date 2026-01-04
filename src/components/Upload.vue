@@ -82,28 +82,7 @@
 import { uniqBy } from "lodash";
 import { ElButton, ElDialog, ElIcon } from "element-plus";
 import { Plus, UploadFilled, Delete, Check } from "@element-plus/icons-vue";
-
-const imgtypes = ["jpg", "png", "gif", "bmp", "webp", "jpeg", "JPG", "PNG", "GIF", "BMP", "WEBP", "JPEG"];
-const videoTypes = [
-    "mp4",
-    "MP4",
-    "mov",
-    "MOV",
-    "avi",
-    "AVI",
-    "rmvb",
-    "RMVB",
-    "rm",
-    "RM",
-    "flv",
-    "FLV",
-    "3gp",
-    "3GP",
-    "wmv",
-    "WMV",
-    "mkv",
-    "MKV",
-];
+import { imgTypes, videoTypes } from "../../config/global.js";
 
 export default {
     name: "Upload",
@@ -117,30 +96,34 @@ export default {
         Check,
     },
     props: {
-        text: {
-            type: String,
-        },
-        onlyImage: {
-            type: Boolean,
-        },
-        desc: {
-            type: String,
-        },
-        accept: {
-            type: String,
-        },
+        // 是否启用
         enable: {
             type: Boolean,
             default: true,
         },
+        // 按钮文字
+        text: {
+            type: String,
+        },
+        // 仅图片上传
+        onlyImage: {
+            type: Boolean,
+        },
+        // 上传约束提示
+        desc: {
+            type: String,
+        },
+        // 上传数量限制
         limit: {
             type: Number,
             default: 10,
         },
+        // 上传方法
         uploadFn: {
             type: Function,
             required: true,
         },
+        // CDN拼接域名
         domain: {
             type: String,
             default: "",
@@ -187,8 +170,8 @@ export default {
                 // }
 
                 // 分析文件类型
-                let ext = file.name.split(".").pop();
-                const is_img = imgtypes.includes(ext);
+                let ext = file.name?.toLowerCase().split(".").pop();
+                const is_img = imgTypes.includes(ext);
                 const is_video = videoTypes.includes(ext);
 
                 if (this.onlyImage && !is_img) return;
@@ -288,7 +271,7 @@ export default {
         },
         isImage(file) {
             let ext = file.name.split(".").pop();
-            return imgtypes.includes(ext);
+            return imgTypes.includes(ext);
         },
         closeUpload() {
             this.fileList = [];

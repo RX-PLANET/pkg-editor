@@ -10,27 +10,21 @@ module.exports = {
     pages: {
         index:{
             title: "导航",
-            entry: "pages/index.js",
+            entry: "src/pages/index.js",
             template: "public/index.html",
             filename: "index.html",
         },
         article: {
             title: "Article渲染",
-            entry: "pages/article.js",
+            entry: "src/pages/article.js",
             template: "public/article.html",
             filename: "article/index.html",
         },
         tinymce: {
             title: "Tinymce编辑器",
-            entry: "pages/tinymce.js",
+            entry: "src/pages/tinymce.js",
             template: "public/tinymce.html",
             filename: "tinymce/index.html",
-        },
-        lightTinymce: {
-            title: "轻量级Tinymce编辑器",
-            entry: "pages/L.js",
-            template: "public/tinymce.html",
-            filename: "light/index.html",
         },
     },
 

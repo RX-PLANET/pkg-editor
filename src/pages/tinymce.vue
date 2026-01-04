@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Tinymce from "../src/Tinymce.vue";
-import demohtml from "../demo/content_1";
+import Tinymce from "../components/Tinymce.vue";
+// import demohtml from "../../public/demo/article_basic";
 export default {
     name: "T",
     data: function () {
