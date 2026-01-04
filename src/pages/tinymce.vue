@@ -12,18 +12,21 @@
 
 <script>
 import Tinymce from "../components/Tinymce.vue";
-// import demohtml from "../../public/demo/article_basic";
 export default {
     name: "T",
     data: function () {
         return {
-            content: demohtml,
+            content: "",
             domain: "https://cdn.iruxu.com",
             uploadUrl: "https://dev.api.iruxu.com/api/cms/admin/upload/tinymce",
         };
     },
     components: {
         Tinymce,
+    },
+    async mounted() {
+        const res = await fetch("/demo/article_basic.html");
+        this.content = await res.text();
     },
 };
 </script>

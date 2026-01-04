@@ -1,8 +1,8 @@
 <template>
     <div class="c-upload">
         <!-- 上传触发按钮 -->
-        <el-button type="primary" @click="dialogVisible = true" :disabled="!enable">
-            <el-icon class="u-icon">
+        <el-button type="primary" @click="dialogVisible = true" :disabled="!enable" size="large">
+            <el-icon class="c-upload-trigger">
                 <UploadFilled />
             </el-icon>
             {{ btn_txt }}
@@ -10,13 +10,14 @@
 
         <!-- 弹出界面 -->
         <el-dialog class="c-large-dialog" title="上传" v-model="dialogVisible" @close="closeUpload">
-            <!-- 清空按钮 -->
-            <el-button class="u-upload-clear" plain size="small" @click="clear"
-                ><el-icon> <Delete /> </el-icon>清空</el-button
-            >
-
-            <!-- 限制提示 -->
-            <el-alert class="u-upload-tip" :title="tip" type="info" show-icon :closable="false"></el-alert>
+            <div class="c-upload-toolbar">
+                <!-- 清空按钮 -->
+                <el-button class="u-upload-clear" plain size="small" @click="clear"
+                    ><el-icon> <Delete /> </el-icon>清空</el-button
+                >
+                <!-- 限制提示 -->
+                <div class="u-upload-tip" :title="tip" type="info" show-icon :closable="false">{{ tip }}</div>
+            </div>
 
             <!-- 文件区 -->
             <el-upload
@@ -68,7 +69,7 @@
             <!-- 插入按钮 -->
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button @click="dialogVisible = false" plain>取 消</el-button>
                     <el-button type="primary" @click="insert">
                         {{ buttonTXT }}
                     </el-button>

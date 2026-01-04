@@ -1,5 +1,10 @@
 # iruxu-editor
 
+## 组件文档
++ [Article](./docs/article.md)
++ [Tinymce](./docs/tinymce.md)
++ [Upload](./docs/upload.md)
+
 ## 开发
 ```
 $ npm install
@@ -8,7 +13,7 @@ $ npm run serve //使用线上tinymce资源和接口
 ```
 
 
-## fork&构建流程
+## Fork&构建流程
 ### 构建发布
 本地执行`npm run build`，需要将文章与编辑器共用样式在tinymce进行生成静态css
 

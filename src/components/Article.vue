@@ -140,7 +140,7 @@ export default {
             renderFoldBlock($root);
             // 代码
             renderCode(`code[class=^'language-']`);
-            // Tatex
+            // Latex
             renderKatex();
 
             // 画廊

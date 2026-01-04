@@ -173,7 +173,7 @@
 <!--nextpage-->
 
 <!-- ========== 代码与语法高亮 ========== -->
-<h1>代码</h1>
+<h1>10.代码</h1>
 
 <p>行内代码：<code>npm run dev</code>、<code>const a = 1</code></p>
 
@@ -183,9 +183,63 @@
 // &lt;script&gt; in code should not execute
 </code></pre>
 
+<!-- ========== 公式 ========== -->
+<h1>11.公式</h1>
+<h5>2.1 行内公式<span style="font-size: 12px;">（文字中的小公式）</span></h5>
+<p>在文字中插入小型公式，有两种写法：</p>
+<h6><strong>方法一：使用<code>$$</code>单个美元符号</strong></h6>
+<ul>
+<li><strong>⌨️ 示例</strong>：勾股定理 <code>$a^2 + b^2 = c^2$</code></li>
+<li><strong>🎉 效果</strong>：$a^2 + b^2 = c^2$&nbsp;</li>
+</ul>
+<h6><strong>方法二：使用<code>\(\)</code></strong><strong>括号</strong></h6>
+<ul>
+<li><span style="font-size: 16px;"><strong>⌨️ 示例</strong>：爱因斯坦质能方程</span> <code>\(E = mc^2\)</code></li>
+<li><span style="font-size: 16px;"><strong>🎉 效果</strong>：</span>\(E = mc^2\)<span style="font-size: 16px;"><br /><br /></span></li>
+</ul>
+<h5>2.2 独立公式<span style="font-size: 12px;">（大型公式块）</span></h5>
+<p>对于需要突出显示的重要公式，使用块级显示：</p>
+<h6><strong>方法一：使用<code>$$$$</code>双美元符号</strong></h6>
+<ul>
+<li><strong>⌨️ 示例</strong>：</li>
+</ul>
+<pre class="language-bash"><code>$$
+y = \sqrt{x_1^2 + x_2^2 + x_3^2 + x_4^2}
+$$</code></pre>
+<ul>
+<li><strong><span style="font-size: 16px;">🎉 </span>效果：</strong></li>
+</ul>
+<p>$$ y = \\sqrt{x_1^2 + x_2^2 + x_3^2 + x_4^2} $$</p>
+<p>&nbsp;</p>
+<h6><strong>方法二：使用<code>\[\]</code>括号</strong></h6>
+<ul>
+<li><strong>⌨️ 示例：</strong></li>
+</ul>
+<pre class="language-bash"><code>\[
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+\]</code></pre>
+<ul>
+<li><strong><span style="font-size: 16px;">🎉 </span>效果：</strong></li>
+</ul>
+<p>\[ \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2} \]</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff6600;"><strong><span style="font-size: 12px;">注意：块级公式会自动居中显示，适合长公式或多行公式。</span></strong></span></p>
+<p>&nbsp;</p>
+<h5>方法三：源码指定</h5>
+<p>如果您精通HTML，你可以直接通过编辑源码，对包裹区使用特定的类<code>.w-latex</code>，系统会自动处理换行和格式。</p>
+<ul>
+<li><strong>⌨️ 示例：</strong></li>
+</ul>
+<pre class="language-xml"><code>&lt;div class="w-latex"&gt; x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} &lt;/div&gt;</code></pre>
+<ul>
+<li><strong><span style="font-size: 16px;">🎉 </span>效果：</strong></li>
+</ul>
+<div class="w-latex">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</div>
+<p>&nbsp;</p>
+
 
 <!-- ========== 安全检测：脚本/事件/协议/style ========== -->
-<h1>安全检测：XSS 最小危险集</h1>
+<h1>12.安全检测：XSS 最小危险集</h1>
 
 <h6>安全检测1：script 标签（应被移除）</h6>
 <script>alert("xss-script-tag")</script>
@@ -207,8 +261,8 @@
   url() 测试（背景图）
 </p>
 
-<!--nextpage-->
 
+<!--nextpage-->
 
 <!-- ========== 魔盒自定义 ========== -->
 <h1>魔盒自定义</h1>
