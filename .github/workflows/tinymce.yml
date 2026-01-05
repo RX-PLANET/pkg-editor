@@ -1,8 +1,10 @@
 name: Deploy to OSS
 on:
     push:
-        branches:
-            - master
+        tags:
+            - "v*.*.*-master"
+        # branches:
+            # - master
 jobs:
     build-and-deploy:
         runs-on: ubuntu-latest

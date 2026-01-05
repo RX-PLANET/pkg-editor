@@ -62,6 +62,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/iruxu/iruxu-editor.git"
+        "url": "git+https://github.com/2kog/pkg-editor.git"
     }
 }
