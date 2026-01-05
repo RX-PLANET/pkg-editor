@@ -10,6 +10,18 @@ $path-to/static/tinymce/skins/content/default/content.min.css
 ```js
 <script src="path/to/static/tinymce/tinymce.min.js"></script>
 import Tinymce from 'iruxu-editor/src/components/Tinymce.vue
+
+<Tinymce
+    v-model="content"
+    :height="800"
+
+    :tinymceUploadFn="tinymceUploadFn"
+    :tinymceAssetsDomain="domain"
+
+    :attachmentEnable="true"
+    :attachmentUploadFn="uploadToOss"
+    :attachmentCdnDomain="domain"
+/>
 ```
 
 ## Props

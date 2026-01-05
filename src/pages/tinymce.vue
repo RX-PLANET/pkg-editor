@@ -2,14 +2,13 @@
     <div>
         <Tinymce
             v-model="content"
-            height="800"
 
-            :tinymceUploadFn="tinymceUploadFn"
-            :tinymceCdnDomain="tinymceCdnDomain"
+            :tinymceUploadFn="uploadFn"
+            :tinymceAssetsDomain="domain"
 
             :attachmentEnable="true"
-            :uploadFn="uploadFn"
-            :uploadDomain="uploadDomain"
+            :attachmentUploadFn="uploadFn"
+            :attachmentCdnDomain="domain"
         />
     </div>
 </template>
@@ -21,12 +20,17 @@ export default {
     data: function () {
         return {
             content: "",
-            domain: "https://cdn.iruxu.com",
+            domain: "https://cdn.2kog.com",
             uploadUrl: "https://dev.api.iruxu.com/api/cms/admin/upload/tinymce",
         };
     },
     components: {
         Tinymce,
+    },
+    methods:{
+        uploadFn(){
+
+        }
     },
     async mounted() {
         const res = await fetch("/demo/article_basic.html");
