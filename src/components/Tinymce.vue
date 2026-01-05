@@ -3,7 +3,7 @@
         <slot name="prepend"></slot>
 
         <div class="c-editor-header">
-            <Upload v-if="attachmentEnable" @insert="insertAttachments" :uploadFn="uploadFn" :domain="uploadDomain" />
+            <Upload v-if="attachmentEnable" @insert="insertAttachments" :uploadFn="attachmentUploadFn" :domain="attachmentCdnDomain" />
         </div>
 
         <slot></slot>
@@ -50,7 +50,7 @@ export default {
             default: () => {},
         },
         // Tinymce资源CDN拼接域名
-        tinymceCdnDomain: {
+        tinymceAssetsDomain: {
             type: String,
             default: "",
         },
@@ -67,12 +67,12 @@ export default {
             default: true,
         },
         // 附件上传函数
-        uploadFn: {
+        attachmentUploadFn: {
             type: Function,
             default: () => {},
         },
         // 附件CDN拼接域名
-        uploadDomain: {
+        attachmentCdnDomain: {
             type: String,
             default: "",
         },
@@ -93,7 +93,7 @@ export default {
                 convert_urls: false,
 
                 // 样式
-                content_css: process.env.NODE_ENV === "production" ? `${this.tinymceCdnDomain}/static/tinymce/skins/content/default/content.min.css` : `http://localhost:5120/skins/content/default/content.min.css`,
+                content_css: process.env.VUE_APP_TINYMCE_DEV === "true" ? `http://localhost:5120/skins/content/default/content.min.css` : `${this.tinymceAssetsDomain}/static/tinymce/skins/content/default/content.min.css`,
                 body_class: "c-article c-article-editor c-article-tinymce",
                 height: this.height || 800,
                 autosave_ask_before_unload: false,
@@ -174,7 +174,9 @@ export default {
                 });
         },
     },
-    mounted: function () {},
+    mounted: function () {
+        // console.log(process.env.VUE_APP_TINYMCE_DEV)
+    },
     components: {
         Editor,
         Upload,
