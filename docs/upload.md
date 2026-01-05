@@ -1,7 +1,15 @@
 # Upload
 
 ## Usage
-```import Upload from 'iruxu-editor/src/components/Upload.vue```
+```js
+import Upload from 'iruxu-editor/src/components/Upload.vue
+
+<Upload 
+    :uploadFn="uploadFn" 
+    :domain="cdnDomain" 
+    @insert="insertAttachments" 
+/>
+```
 
 ## Props
 

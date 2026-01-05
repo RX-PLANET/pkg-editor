@@ -2,10 +2,14 @@
     <div>
         <Tinymce
             v-model="content"
+            height="800"
+
+            :tinymceUploadFn="tinymceUploadFn"
+            :tinymceCdnDomain="tinymceCdnDomain"
+
             :attachmentEnable="true"
-            :resourceEnable="true"
-            :domain="domain"
-            :upload-url="uploadUrl"
+            :uploadFn="uploadFn"
+            :uploadDomain="uploadDomain"
         />
     </div>
 </template>

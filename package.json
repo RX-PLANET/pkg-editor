@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "Custom Tinymce、Article Renderer",
     "scripts": {
-        "serve": "vue-cli-service serve",
+        "serve": "npm run dev",
         "dev:vue": "vue-cli-service serve",
         "dev:tinymce": "serve -l 5120 ./tinymce",
         "dev": "npm run dev:vue & npm run dev:tinymce",

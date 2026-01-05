@@ -109,6 +109,7 @@ export default {
         // 仅图片上传
         onlyImage: {
             type: Boolean,
+            default: false,
         },
         // 上传约束提示
         desc: {

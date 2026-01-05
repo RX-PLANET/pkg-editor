@@ -2,7 +2,7 @@
 
 ## Usage
 
-```vue
+```js
 import Article from 'iruxu-editor/src/components/Article.vue
 
 <Article
