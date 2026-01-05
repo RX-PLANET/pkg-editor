@@ -1,5 +1,5 @@
 {
-    "name": "iruxu-editor",
+    "name": "@2kog/pkg-editor",
     "version": "0.0.1",
     "description": "Custom Tinymce、Article Renderer",
     "scripts": {
