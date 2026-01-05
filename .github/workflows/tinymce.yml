@@ -18,4 +18,4 @@ jobs:
                   endpoint: "oss-cn-hangzhou.aliyuncs.com"
                   access-key-id: ${{secrets.ACCESSKEY_ID}}
                   access-key-secret: ${{secrets.ACCESS_KEY_SECRET}}
-            - run: ossutil cp -rf tinymce oss://2kog/static
+            - run: ossutil cp -rf tinymce oss://2kog/static/tinymce
