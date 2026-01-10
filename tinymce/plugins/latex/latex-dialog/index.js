@@ -105,7 +105,7 @@ input.addEventListener("input", () => {
         if (window.LatexRenderer) {
             window.LatexRenderer.clear(preview);
         } else {
-            preview.innerHTML = '<span class="placeholder">公式预览区域</span>';
+            preview.innerHTML = '<span class="placeholder">公式预览</span>';
         }
         return;
     }

@@ -65,7 +65,7 @@
      * @param {HTMLElement} element - 目标元素
      */
     function clearPreview(element) {
-        element.innerHTML = '<span class="placeholder">公式预览区域</span>';
+        element.innerHTML = '<span class="placeholder">公式预览</span>';
     }
 
     // 暴露到全局
