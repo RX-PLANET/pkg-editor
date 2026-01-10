@@ -19,4 +19,4 @@ jobs:
                   endpoint: "oss-cn-hangzhou.aliyuncs.com"
                   access-key-id: ${{secrets.ACCESSKEY_ID}}
                   access-key-secret: ${{secrets.ACCESS_KEY_SECRET}}
-            - run: ossutil cp -rf dist oss://桶名称/路径/子路径
+            - run: ossutil cp -rf tinymce oss://桶名称/路径/子路径/tinymce
