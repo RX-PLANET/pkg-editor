@@ -1,6 +1,6 @@
 {
     "name": "@2kog/pkg-editor",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Custom Tinymce、Article Renderer",
     "scripts": {
         "serve": "npm run dev",
@@ -62,6 +62,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/2kog/pkg-editor.git"
+        "url": "git+https://github.com/RX-PLANET/pkg-editor.git"
     }
 }
