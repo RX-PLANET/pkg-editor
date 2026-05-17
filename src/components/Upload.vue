@@ -85,6 +85,11 @@ import { ElButton, ElDialog, ElIcon } from "element-plus";
 import { Plus, UploadFilled, Delete, Check } from "@element-plus/icons-vue";
 import { imgTypes, videoTypes } from "../../config/global.js";
 
+const documentTypes = ["pdf", "doc", "docx", "txt", "md", "rtf", "ppt", "pptx"];
+const spreadsheetTypes = ["xls", "xlsx", "csv", "tsv"];
+const archiveTypes = ["zip", "rar", "7z", "tar", "gz"];
+const attachmentTypes = [...imgTypes, ...videoTypes, ...documentTypes, ...spreadsheetTypes, ...archiveTypes];
+
 export default {
     name: "Upload",
     components: {
@@ -157,6 +162,10 @@ export default {
         },
     },
     computed: {
+        accept: function () {
+            const types = this.onlyImage ? imgTypes : attachmentTypes;
+            return types.map((type) => `.${type}`).join(",");
+        },
         buttonTXT: function () {
             return this.selectedCount ? "插 入" : "确 定";
         },
@@ -270,6 +279,9 @@ export default {
                     fileList.splice(i, 1);
                 }
             });
+        },
+        onExceed: function () {
+            this.$message.warning(`一次最多上传 ${this.limit} 个文件`);
         },
         isImage(file) {
             let ext = file.name.split(".").pop();
