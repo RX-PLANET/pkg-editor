@@ -3,7 +3,12 @@
         <slot name="prepend"></slot>
 
         <div class="c-editor-header">
-            <Upload v-if="attachmentEnable" @insert="insertAttachments" :uploadFn="attachmentUploadFn" :domain="attachmentCdnDomain" />
+            <Upload
+                v-if="attachmentEnable"
+                @insert="insertAttachments"
+                :uploadFn="attachmentUploadFn"
+                :domain="attachmentCdnDomain"
+            />
         </div>
 
         <slot></slot>
@@ -29,7 +34,7 @@
 import Editor from "@tinymce/tinymce-vue";
 import Upload from "./Upload";
 import hljs_languages from "../assets/js/hljs_languages.js";
-import GlobalConf from '../../config/global.js';
+import GlobalConf from "../../config/global.js";
 
 export default {
     name: "Tinymce",
@@ -60,7 +65,6 @@ export default {
             default: true,
         },
 
-
         // 是否启用附件上传
         attachmentEnable: {
             type: Boolean,
@@ -76,7 +80,10 @@ export default {
             type: String,
             default: "",
         },
-
+        tinymceDev: {
+            type: Boolean,
+            default: false,
+        },
     },
     emits: ["update:modelValue"],
     data: function () {
@@ -93,7 +100,9 @@ export default {
                 convert_urls: false,
 
                 // 样式
-                content_css: process.env.VUE_APP_TINYMCE_DEV === "true" ? `http://localhost:5120/skins/content/default/content.min.css` : `${this.tinymceAssetsDomain}/static/tinymce/skins/content/default/content.min.css`,
+                content_css: this.tinymceDev
+                    ? `http://localhost:5120/skins/content/default/content.min.css`
+                    : `${this.tinymceAssetsDomain}/static/tinymce/skins/content/default/content.min.css`,
                 body_class: "c-article c-article-editor c-article-tinymce",
                 height: this.height || 800,
                 autosave_ask_before_unload: false,
