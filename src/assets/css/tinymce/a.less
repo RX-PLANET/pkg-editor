@@ -1,11 +1,21 @@
 /* 链接 */
-.c-article-tinymce {
+.c-article-tinymce{
     a {
         color: @primary;
         text-decoration: none;
         word-break: break-all;
         &:hover {
-            box-shadow: 0 1px 0 @primary;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            text-decoration-color: @primary;
+        }
+    }
+
+    .e-jx3-author{
+        color:#8250df;
+
+        &:hover{
+            box-shadow: 0 1px 0 #8250df;
         }
     }
 }

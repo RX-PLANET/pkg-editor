@@ -29,15 +29,25 @@ import Tinymce from "@2kog/pkg-editor/src/components/Tinymce.vue";
 | ------------ | ------------------------ | ---------- | ---------- | ---- | ------------------------------------------------------ |
 | `modelValue` | 内容                     | `String`   | `""`       | 否   | 通常配合 `v-model` 使用                                |
 | `height`     | 默认高度                 | `Number`   | `800`      | 否   | 指 px                                                  |
-| `upload`     | Tinymce 右键粘贴上传函数 | `Function` | `() => {}` | 否   | 用于右键上传或图片上传插件 |
+| `upload`     | Tinymce 右键粘贴上传函数 | `Function` | `() => {}` | 否   | 用于右键上传或图片上传插件，默认上限30M |
 | `showTips`   | 是否显示编辑器底部使用提示   | `Boolean`  | `true`     | 否   |                                                        |
 
-## 4. 定义部署 Workflow
+## 4. 样式
+
+如果修改了编辑器内容样式，需要在本仓库手动执行：
+
+```bash
+npm run build
+```
+
+该命令会重新生成 `tinymce/skins/content/default/content.min.css`。
+
+## 5. 定义部署 Workflow
 
 项目需要把本仓库的 `tinymce/` 子目录部署到 CDN 对应目录。
 当前仓库示例见 `.github/workflows/tinymce.yml`，核心逻辑是上传整个 `tinymce/` 目录：
 
-## 5. 特殊情况刷新 CDN
+## 6. 特殊情况刷新 CDN
 
 版本迭代后，如果发现编辑器脚本、样式或插件没有生效，优先刷新 CDN 缓存：
 

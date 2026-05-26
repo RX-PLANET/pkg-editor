@@ -32,12 +32,11 @@
 
     h4 {
         font-size: 15px;
-        padding: 8px 10px;
+        padding: 8px 10px 8px 20px;
 
         background-color: #fafbfc;
         border-radius: 6px;
-        border-left:4px solid @primary;
-
+        // border-left:4px solid @primary;
 
         position: relative;
         overflow: hidden;
@@ -45,16 +44,38 @@
         // border: 1px solid @primary;
         &::before {
             content: "";
-            font-size: 20px;
             display: block;
             position: absolute;
-            width: 80px;
-            height: 3px;
-            top: 0;
-            left: 15px;
-            // background-color: @primary;
+            width: 5px;
+            height: 60%;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            background-color: @primary;
+            border-radius: 10px;
+            transition: all 0.2s ease;
             // border-bottom-right-radius: 20px;
             // border-bottom-left-radius: 20px;
+        }
+        // &::after {
+        //     content: "";
+        //     display: block;
+        //     position: absolute;
+        //     width: 5px;
+        //     height: 60%;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     left: 10px;
+        //     background-color: @v4yellow;
+        //     border-radius: 10px;
+        //     z-index: 2;
+        //     display: none;
+        // }
+
+        &:hover {
+            &::before {
+                background-color: @v4yellow;
+            }
         }
     }
 
@@ -73,6 +94,11 @@
             position: absolute;
             bottom: -1px;
             left: 0;
+        }
+        &:hover{
+            &::after {
+                background-color: @v4yellow;
+            }
         }
     }
 
