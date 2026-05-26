@@ -53,7 +53,7 @@
                         <img v-if="file.is_img" class="el-upload-list__item-thumbnail u-imgbox" :src="file.url" alt />
                         <!-- 其他类型 -->
                         <div v-else class="u-filebox">
-                            <img class="u-fileplaceholder" svg-inline src="../assets/img/file.svg" />
+                            <img class="u-fileplaceholder" :src="getFileIcon(file)" alt="" />
                             <span class="u-filename">{{ file.name }}</span>
                         </div>
                         <!-- 勾选角标 -->
@@ -85,10 +85,13 @@ import { ElButton, ElDialog, ElIcon } from "element-plus";
 import { Plus, UploadFilled, Delete, Check } from "@element-plus/icons-vue";
 import { imgTypes, videoTypes } from "../../config/global.js";
 
-const documentTypes = ["pdf", "doc", "docx", "txt", "md", "rtf", "ppt", "pptx"];
-const spreadsheetTypes = ["xls", "xlsx", "csv", "tsv"];
-const archiveTypes = ["zip", "rar", "7z", "tar", "gz"];
-const attachmentTypes = [...imgTypes, ...videoTypes, ...documentTypes, ...spreadsheetTypes, ...archiveTypes];
+const fallbackFileIcon = require("../assets/img/file.svg");
+const fileIconContext = require.context("../assets/img/files", false, /\.svg$/);
+const fileIconMap = fileIconContext.keys().reduce((map, key) => {
+    const ext = key.replace("./", "").replace(".svg", "");
+    map[ext] = fileIconContext(key);
+    return map;
+}, {});
 
 export default {
     name: "Upload",
@@ -139,7 +142,7 @@ export default {
     data: function () {
         return {
             dialogVisible: false,
-            tip: this.desc || "一次最多同时上传10个文件（单个文件不超过20M），格式限常见的图片、文档、数据表及压缩包",
+            tip: this.desc || "一次最多同时上传10个文件（单个文件不超过200M）",
             btn_txt: this.text || "上传附件",
 
             fileList: [],
@@ -163,8 +166,7 @@ export default {
     },
     computed: {
         accept: function () {
-            const types = this.onlyImage ? imgTypes : attachmentTypes;
-            return types.map((type) => `.${type}`).join(",");
+            return this.onlyImage ? imgTypes.map((type) => `.${type}`).join(",") : "";
         },
         buttonTXT: function () {
             return this.selectedCount ? "插 入" : "确 定";
@@ -286,6 +288,13 @@ export default {
         isImage(file) {
             let ext = file.name.split(".").pop();
             return imgTypes.includes(ext);
+        },
+        getFileExt(file) {
+            return file.name?.toLowerCase().split(".").pop() || "";
+        },
+        getFileIcon(file) {
+            const ext = this.getFileExt(file);
+            return fileIconMap[ext] || fallbackFileIcon;
         },
         closeUpload() {
             this.fileList = [];
