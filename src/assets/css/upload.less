@@ -45,9 +45,11 @@
     // 列表
     .u-file-wrapper {
         .size(100%);
+        position: relative;
         &.isSelected {
         }
-        &.disabled {
+        &.isUnselected,
+        &.isPending {
             cursor: default;
             opacity: 0.38;
             border-color: #eee;
@@ -57,9 +59,53 @@
         }
         .pointer;
     }
+    .u-mask {
+        .pa;
+        .lt(0);
+        .size(100%);
+        background-color: rgba(0, 0, 0, 0.35);
+        display: none;
+        z-index: 2;
+    }
+    .u-op {
+        .pa;
+        .lt(50%);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.58);
+        color: #fff;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 4;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+        .el-icon {
+            font-size: 16px;
+        }
+    }
+    .u-preview-btn {
+        margin-left: -20px;
+    }
+    .u-delete-btn {
+        margin-left: 20px;
+    }
+    .u-delete-btn.is-single {
+        margin-left: 0;
+    }
+    .u-file-wrapper:hover .u-mask {
+        display: block;
+    }
+    .u-file-wrapper:hover .u-op {
+        display: inline-flex;
+    }
     .u-filebox {
         .x;
         padding: 37px;
+    }
+    .u-imgbox {
+        cursor: pointer;
     }
     .u-fileplaceholder {
         width: 40px;
@@ -74,21 +120,28 @@
     // 勾选
     .u-file-select-label {
         position: absolute;
-        right: -15px;
-        top: -6px;
-        width: 40px;
-        height: 24px;
+        right: 6px;
+        top: 6px;
+        width: 18px;
+        height: 18px;
         background: #13ce66;
         text-align: center;
-        -webkit-transform: rotate(45deg);
-        transform: rotate(45deg);
-        -webkit-box-shadow: 0 0 1pc 1px rgba(0, 0, 0, 0.2);
-        box-shadow: 0 0 1pc 1px rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        i {
+        .u-file-select-icon {
+            color: #fff;
             font-size: 12px;
-            margin-top: 12px;
-            transform: rotate(-45deg);
+            line-height: 1;
+            font-weight: 700;
+        }
+        &.is-unselected {
+            background: rgba(103, 194, 58, 0.38);
+            box-shadow: none;
         }
     }
 

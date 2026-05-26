@@ -5,6 +5,74 @@
  * @Description:config
  */
 const path = require("path");
+const { spawn } = require("child_process");
+
+let chokidar = null;
+try {
+    chokidar = require("chokidar");
+} catch (e) {
+    chokidar = null;
+}
+
+class RunBuildOnCssChangePlugin {
+    constructor(options = {}) {
+        this.paths = options.paths || [];
+        this.debounceMs = Number.isFinite(options.debounceMs) ? options.debounceMs : 400;
+        this.command = options.command || ["npm", ["run", "build"]];
+        this.enabled = options.enabled !== false;
+    }
+
+    apply() {
+        if (!this.enabled) return;
+        if (!process.env.WEBPACK_SERVE) return;
+        if (!chokidar) return;
+
+        const watchTargets = this.paths.filter(Boolean);
+        if (!watchTargets.length) return;
+
+        let timer = null;
+        let running = false;
+        let queued = false;
+
+        const run = () => {
+            if (running) {
+                queued = true;
+                return;
+            }
+
+            running = true;
+            queued = false;
+
+            const npmBin = process.platform === "win32" ? "npm.cmd" : "npm";
+            const [cmd, args] = this.command;
+            const realCmd = cmd === "npm" ? npmBin : cmd;
+
+            const child = spawn(realCmd, args, {
+                stdio: "inherit",
+                env: process.env,
+            });
+
+            child.on("exit", () => {
+                running = false;
+                if (queued) run();
+            });
+        };
+
+        const schedule = () => {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(run, this.debounceMs);
+        };
+
+        const watcher = chokidar.watch(watchTargets, {
+            ignoreInitial: true,
+        });
+
+        watcher.on("add", schedule);
+        watcher.on("change", schedule);
+        watcher.on("unlink", schedule);
+    }
+}
+
 module.exports = {
     //❤️ Multiple pages ~
     pages: {
@@ -32,6 +100,16 @@ module.exports = {
     devServer: {
         proxy: {
         },
+    },
+
+    configureWebpack: {
+        plugins: [
+            new RunBuildOnCssChangePlugin({
+                paths: [path.resolve(__dirname, "src/assets/css")],
+                command: ["npm", ["run", "build"]],
+                debounceMs: 500,
+            }),
+        ],
     },
 
     //❤️ Webpack configuration

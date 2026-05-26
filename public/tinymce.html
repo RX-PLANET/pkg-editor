@@ -7,10 +7,17 @@
         <meta name="renderer" content="webkit" />
         <title><%= htmlWebpackPlugin.options.title %></title>
         <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
-        <script src="http://localhost:5120/tinymce.min.js"></script>
+        <!-- A.使用本地tinymce -->
         <script>
-            window.RX_TINYMCE_ROOT = 'http://localhost:5120';
+            window.RX_TINYMCE_ROOT = "http://localhost:5120";
         </script>
+        <script src="http://localhost:5120/tinymce.min.js"></script>
+
+        <!-- B.使用线上部署tinymce -->
+        <!-- <script>
+            window.RX_TINYMCE_ROOT = "https://static.2kog.com/static/tinymce";
+        </script>
+        <script src="https://static.2kog.com/static/tinymce/tinymce.min.js"></script> -->
     </head>
     <body>
         <div id="app"></div>

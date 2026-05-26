@@ -2,16 +2,25 @@ import $ from "jquery";
 import "viewerjs/dist/viewer.css";
 import Viewer from "viewerjs";
 
-function renderImgPreview(selector = ".c-article img") {
-    // 获取src不为空的图片
-    let imgs = $(selector).filter(function () {
+export function getImgViewer(ele) {
+    return new Viewer(ele, {
+        toolbar: false,
+        navbar: false,
+    });
+}
+
+export function showImgPreview(ele) {
+    const viewer = getImgViewer(ele);
+    viewer.show();
+}
+
+function renderImgPreview(rootEl = ".c-article", selector = "img") {
+    const $root = typeof rootEl === "string" ? $(rootEl) : $(rootEl);
+    const imgs = ($root.is(selector) ? $root : $root.find(selector)).filter(function () {
         return $(this).attr("src") != "";
     });
     imgs.each((i, ele) => {
-        new Viewer(ele, {
-            toolbar: false,
-            navbar: false,
-        });
+        getImgViewer(ele);
     });
 }
 

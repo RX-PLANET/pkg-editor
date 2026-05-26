@@ -1,7 +1,17 @@
 <template>
     <div class="c-editor-tinymce">
-        <div class="c-editor-tinymce-header">
-            <slot name="prepend"></slot>
+        <slot name="prepend"></slot>
+
+        <div class="c-editor-header">
+            <Upload
+                v-if="attachmentEnable"
+                @insert="insertAttachments"
+                :uploadFn="attachmentUploadFn"
+                :domain="attachmentCdnDomain"
+                :accept="attachmentAccept"
+                :max="attachmentMax"
+                :sizeLimit="attachmentSizeLimit"
+            />
         </div>
 
         <slot></slot>
@@ -13,20 +23,19 @@
             class="c-tinymce"
             placeholder="✔ 图片可右键粘贴或拖拽至编辑器内自动上传 ✔ 支持word/excel内容一键粘贴"
         />
+        <el-alert class="u-tutorial" type="warning" show-icon v-if="showTips"
+            >进入特殊区域（代码块，折叠块等等）脱离或使用工具栏触发后，请使用键盘方向 → ↓
+            键进行脱离，回车只是正常在区块内换行。去掉样式点击第二行第一个&lt;清除格式&gt;即可复位。
+            <!-- <a href="" target="_blank">[编辑器使用指南]</a> -->
+        </el-alert>
 
-        <div class="c-editor-tinymce-footer">
-            <el-alert class="u-tutorial" type="warning" show-icon v-if="showTips"
-                >进入特殊区域（代码块，折叠块等等）脱离或使用工具栏触发后，请使用键盘方向 → ↓
-                键进行脱离，回车只是正常在区块内换行。去掉样式点击第二行第一个&lt;清除格式&gt;即可复位。
-            </el-alert>
-
-            <slot name="append"></slot>
-        </div>
+        <slot name="append"></slot>
     </div>
 </template>
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
+import Upload from "./Upload";
 import hljs_languages from "../assets/js/hljs_languages.js";
 import GlobalConf from "../../config/global.js";
 
@@ -48,14 +57,51 @@ export default {
             default: 800,
         },
         // Tinymce右键粘贴上传函数
-        upload: {
+        tinymceUploadFn: {
             type: Function,
             default: () => {},
+        },
+        // Tinymce资源CDN拼接域名。优先使用 window.RX_TINYMCE_ROOT，这个 prop 仅保留旧项目兼容。
+        tinymceAssetsDomain: {
+            type: String,
+            default: "",
         },
         // 是否显示编辑器使用提示
         showTips: {
             type: Boolean,
             default: true,
+        },
+
+        // 是否启用附件上传
+        attachmentEnable: {
+            type: Boolean,
+            default: true,
+        },
+        // 附件上传函数
+        attachmentUploadFn: {
+            type: Function,
+            default: () => {},
+        },
+        // 附件CDN拼接域名
+        attachmentCdnDomain: {
+            type: String,
+            default: "",
+        },
+        attachmentAccept: {
+            type: String,
+            default: "",
+        },
+        attachmentMax: {
+            type: Number,
+            default: 10,
+        },
+        attachmentSizeLimit: {
+            type: Number,
+            default: 200,
+        },
+        tinymceDev: {
+            type: Boolean,
+            default: false,
         },
     },
     emits: ["update:modelValue", "update:content", "update"],
@@ -68,10 +114,15 @@ export default {
                 selector: "#tinymce",
 
                 // 语言
-                language: GlobalConf.tinymce.language || "zh_CN",
+                language: "zh_CN",
+
+                // 设置
+                convert_urls: false,
 
                 // 样式
-                content_css: `${tinymceRoot}/skins/content/default/content.min.css`,
+                content_css: this.tinymceDev
+                    ? `http://localhost:5120/skins/content/default/content.min.css`
+                    : `${tinymceRoot}/skins/content/default/content.min.css`,
                 body_class: "c-article c-article-editor c-article-tinymce",
                 height: this.height || 800,
                 autosave_ask_before_unload: false,
@@ -82,12 +133,13 @@ export default {
                 menubar: false,
                 branding: false,
                 contextmenu: "",
-                plugins: GlobalConf.tinymce.plugins,
-                toolbar: GlobalConf.tinymce.toolbar,
-                mobile: GlobalConf.tinymce.mobile,
+                plugins: GlobalConf.plugins,
+                toolbar: GlobalConf.toolbar,
+                mobile: GlobalConf.mobile,
                 block_formats: "段落=p;一级标题=h1;二级标题=h2;三级标题=h3;四级标题=h4;五级标题=h5;六级标题=h6;",
                 fontsize_formats: "12px 14px 16px 18px 22px 24px 26px 28px 32px 48px 72px",
-                color_map: GlobalConf.tinymce.color_map,
+                color_map: GlobalConf.color_map,
+
                 codesample_languages: hljs_languages,
 
                 // Image
@@ -99,10 +151,8 @@ export default {
                 // images_upload_credentials: true,
                 images_upload_handler: this.image_upload_handler,
                 valid_children: "+body[style]",
-
-                // 设置（禁止转化插入的URL）
-                convert_urls: false,
             },
+            mode: "tinymce",
         };
     },
     watch: {
@@ -126,15 +176,17 @@ export default {
     },
     methods: {
         normalizeTinymceRoot: function (root) {
-            return String(root || "")
-                .trim()
-                .replace(/\/+$/, "");
+            return String(root || "").trim().replace(/\/+$/, "");
         },
         resolveTinymceRoot: function () {
-            const globalRoot = typeof window !== "undefined" ? this.normalizeTinymceRoot(window.RX_TINYMCE_ROOT) : "";
+            const globalRoot =
+                typeof window !== "undefined" ? this.normalizeTinymceRoot(window.RX_TINYMCE_ROOT) : "";
             if (globalRoot) return globalRoot;
 
-            return this.normalizeTinymceRoot(GlobalConf.tinymceRoot) || "/static/tinymce";
+            const legacyDomain = this.normalizeTinymceRoot(this.tinymceAssetsDomain);
+            if (!legacyDomain) return "/static/tinymce";
+            if (/\/static\/tinymce$/i.test(legacyDomain)) return legacyDomain;
+            return `${legacyDomain}/static/tinymce`;
         },
         setup: function (editor) {
             console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
@@ -166,7 +218,7 @@ export default {
             const formData = new FormData();
             formData.append("file", blobInfo.blob(), blobInfo.filename());
 
-            Promise.resolve(this.upload(formData))
+            Promise.resolve(this.tinymceUploadFn(formData))
                 .then((res) => {
                     const payload = res?.data || {};
                     if (payload.code) {
@@ -198,9 +250,11 @@ export default {
         },
     },
     mounted: function () {
+        // console.log(process.env.VUE_APP_TINYMCE_DEV)
     },
     components: {
         Editor,
+        Upload,
     },
 };
 </script>
