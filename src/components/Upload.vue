@@ -339,8 +339,11 @@ export default {
         resolveUploadName(payload) {
             if (Array.isArray(payload)) return payload[0];
             if (!payload || typeof payload !== "object") return payload;
-            if (payload.location || payload.url || payload.name) return payload.location || payload.url || payload.name;
+            if (payload.location || payload.path || payload.key || payload.name) {
+                return payload.location || payload.path || payload.key || payload.name;
+            }
             if (payload.data !== undefined) return this.resolveUploadName(payload.data);
+            if (payload.url) return payload.url;
             return "";
         },
         upsertFile(file) {

@@ -37,10 +37,12 @@ cdnRoot: "https://cdn.2kog.com/"
 组件会按顺序读取这些字段作为文件地址：
 
 ```text
-location / url / name / data / data.url / data.location / data.name
+location / path / key / name / data / data.location / data.path / data.key / data.name / url
 ```
 
 同时兼容顶层数组和 `data` 数组，数组会取第一项作为文件地址。
+
+ali-oss 的 STS 直传通常会返回 `{ name, url }`。其中 `name` 是对象路径，`url` 是 OSS bucket 原站地址；如果 bucket 不允许直接访问，必须使用 `name` 拼接 `GlobalConf.cdnRoot` 后通过 CDN 回源访问。因此 `url` 只作为最后兜底字段，不应优先于 `name`。
 
 地址处理规则：
 

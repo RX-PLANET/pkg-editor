@@ -23,7 +23,9 @@ import Upload from "@2kog/pkg-editor/src/components/Upload.vue";
 | `sizeLimit` | 单文件大小限制，单位 MB | `Number` | `GlobalConf.uploadSizeLimit` | 否 |  |
 | `accept` | 允许选择的文件类型 | `String` | `GlobalConf.uploadAccept` | 否 | `*` 表示不限制 |
 
-`upload(file)` 可以返回 Promise，也可以直接返回同步结果。返回值里需要能解析出文件地址，支持 `url`、`location`、`name`、`data`、数组第一项等常见结构；相对路径会自动拼接 `GlobalConf.cdnRoot`。
+`upload(file)` 可以返回 Promise，也可以直接返回同步结果。返回值里需要能解析出文件地址，支持 `location`、`path`、`key`、`name`、`url`、`data`、数组第一项等常见结构；相对路径会自动拼接 `GlobalConf.cdnRoot`。
+
+如果上传函数返回 ali-oss STS 直传结果 `{ name, url }`，组件会优先使用 `name` 拼接 CDN 地址，而不是直接使用 OSS 原站 `url`。
 
 `GlobalConf.cdnRoot` 来自 `VUE_APP_CDN_ROOT`，默认是 `https://cdn.2kog.com/`。它只用于上传文件、正文图片等业务资源；TinyMCE 的 JS、CSS、插件和皮肤等代码资源使用 `VUE_APP_STATIC_ROOT`。
 
