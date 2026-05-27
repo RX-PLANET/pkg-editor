@@ -6,6 +6,7 @@
 
 ## 前端人员组件使用文档
 + [Article](./docs/usage/article.md)
++ [Editor](./docs/usage/editor.md)
 + [Tinymce](./docs/usage/tinymce.md)
 + [Upload](./docs/usage/upload.md)
 

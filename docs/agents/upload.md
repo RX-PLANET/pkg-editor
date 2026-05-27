@@ -28,6 +28,8 @@ cdnRoot: "https://cdn.2kog.com/"
 
 `el-upload` 的 `auto-upload` 是 `false`，所以不要把上传请求写回 Element Plus 默认 action；本组件的上传入口只有 `upload(file.raw)`。
 
+组件内部使用 `Promise.resolve(upload(file.raw))` 包装上传结果，因此业务侧可以返回 Promise，也可以直接返回同步对象或字符串。
+
 ## 上传返回值
 
 组件会按顺序读取这些字段作为文件地址：
@@ -35,6 +37,8 @@ cdnRoot: "https://cdn.2kog.com/"
 ```text
 location / url / name / data / data.url / data.location / data.name
 ```
+
+同时兼容顶层数组和 `data` 数组，数组会取第一项作为文件地址。
 
 地址处理规则：
 

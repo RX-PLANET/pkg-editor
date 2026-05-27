@@ -23,6 +23,8 @@ import Upload from "@2kog/pkg-editor/src/components/Upload.vue";
 | `sizeLimit` | 单文件大小限制，单位 MB | `Number` | `GlobalConf.uploadSizeLimit` | 否 |  |
 | `accept` | 允许选择的文件类型 | `String` | `GlobalConf.uploadAccept` | 否 | `*` 表示不限制 |
 
+`upload(file)` 可以返回 Promise，也可以直接返回同步结果。返回值里需要能解析出文件地址，支持 `url`、`location`、`name`、`data`、数组第一项等常见结构；相对路径会自动拼接 `GlobalConf.cdnRoot`。
+
 
 ## 3. 事件与对象
 

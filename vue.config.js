@@ -94,6 +94,12 @@ module.exports = {
             template: "public/tinymce.html",
             filename: "tinymce/index.html",
         },
+        editor: {
+            title: "Editor组合编辑器",
+            entry: "src/pages/editor.js",
+            template: "public/tinymce.html",
+            filename: "editor/index.html",
+        },
         upload: {
             title: "上传",
             entry: "src/pages/upload.js",
