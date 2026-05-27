@@ -1,5 +1,10 @@
 module.exports = {
 
+    // CDN拼接(用于处理上传为相对路径时拼接的cdn前缀)
+    /*------------------*/
+    cdnRoot: "https://cdn.2kog.com/",
+
+
     // 编辑器
     /*------------------*/
     tinymceRoot: "/static/tinymce",
@@ -77,6 +82,8 @@ module.exports = {
 
     // 上传组件
     /*------------------*/
-    imgTypes: ["jpg", "png", "gif", "bmp", "webp", "jpeg", "heic", "heif", "avif", "tif", "tiff", "svg"],
-    videoTypes: ["mp4", "mov", "avi", "flv", "3gp", "wmv", "mkv", "webm", "m4v"]
+    uploadMax: 10, // 单次上传最大文件数
+    uploadSizeLimit: 200, // 单个文件大小限制(MB)
+    uploadAccept: "*", // 上传文件类型
+    // uploadAccept: "image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar", // 上传文件类型
 }

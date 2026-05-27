@@ -85,7 +85,7 @@ module.exports = {
         article: {
             title: "Article渲染",
             entry: "src/pages/article.js",
-            template: "public/article.html",
+            template: "public/index.html",
             filename: "article/index.html",
         },
         tinymce: {
@@ -93,6 +93,12 @@ module.exports = {
             entry: "src/pages/tinymce.js",
             template: "public/tinymce.html",
             filename: "tinymce/index.html",
+        },
+        upload: {
+            title: "上传",
+            entry: "src/pages/upload.js",
+            template: "public/index.html",
+            filename: "upload/index.html",
         },
     },
 

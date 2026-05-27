@@ -152,15 +152,24 @@ export default {
         },
         resolveUploadUrl: function (res) {
             const payload = res?.data || res || {};
-            return (
+            const url =
                 payload.location ||
                 payload.url ||
                 payload.name ||
                 (payload.data &&
                     (Array.isArray(payload.data)
                         ? payload.data[0]
-                        : payload.data.url || payload.data.location || payload.data.name || payload.data))
-            );
+                        : payload.data.url || payload.data.location || payload.data.name || payload.data));
+
+            if (!url) return "";
+
+            const normalizedUrl = String(url);
+            if (/^https?:\/\//i.test(normalizedUrl)) return normalizedUrl;
+
+            const cdnRoot = String(GlobalConf.cdnRoot || "").replace(/\/+$/, "");
+            if (!cdnRoot) return normalizedUrl;
+
+            return `${cdnRoot}/${normalizedUrl.replace(/^\/+/, "")}`;
         },
         image_upload_handler: function (blobInfo, success, failure, progress) {
             const formData = new FormData();

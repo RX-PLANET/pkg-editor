@@ -1,24 +1,28 @@
 # iruxu-editor
 
-## 组件文档
-+ [Article](./docs/article.md)
-+ [Tinymce](./docs/tinymce.md)
-+ [Upload](./docs/upload.md)
+## 使用逻辑
++ 如果是内部项目，使用npm安装模式即可
++ 如果是外部项目，拷贝整个项目到外部项目中，一些常见的定制修改config下的配置即可，如配色、插件调用等
+
+## 前端人员组件使用文档
++ [Article](./docs/usage/article.md)
++ [Tinymce](./docs/usage/tinymce.md)
++ [Upload](./docs/usage/upload.md)
+
+## 供Agents阅读的逻辑文档
++ [Article](./docs/agents/article.md)
++ [Tinymce](./docs/agents/tinymce.md)
++ [Upload](./docs/agents/upload.md)
 
 ## 开发
 ```
 $ npm install
 $ npm run dev //本地调试
-$ npm run serve //使用线上tinymce资源和接口
 ```
 
 
-## Fork&构建流程
-### 构建发布
-本地执行`npm run build`，需要将文章与编辑器共用样式在tinymce进行生成静态css
+## Tinymce本体补充说明
 
-
-## Tinymce
 ### 特性
 + 基于tinymce v5.2.2扩展
 + 保留v4版本分割线规则

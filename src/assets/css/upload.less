@@ -122,51 +122,54 @@
         position: absolute;
         right: 6px;
         top: 6px;
-        width: 18px;
-        height: 18px;
-        background: #13ce66;
-        text-align: center;
-        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        color: #13ce66;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+        border-radius: 50%;
         z-index: 5;
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor:pointer;
 
         .u-file-select-icon {
-            color: #fff;
-            font-size: 12px;
+            font-size: 20px;
             line-height: 1;
-            font-weight: 700;
+            background: #fff;
+            border-radius: 50%;
         }
         &.is-unselected {
-            background: rgba(103, 194, 58, 0.38);
+            color: rgba(103, 194, 58, 0.38);
             box-shadow: none;
         }
     }
 
-    .c-large-dialog {
-        &.el-dialog {
-            .w(60%);
-            height: 70%;
-            .el-dialog__body {
-                height: calc(100% - 100px);
-                overflow-y: auto;
-                box-sizing: border-box;
-            }
-        }
+}
+
+.c-large-dialog.el-dialog {
+    .w(60%);
+    height: 70%;
+
+    .el-dialog__body {
+        height: calc(100% - 100px);
+        overflow-y: auto;
+        box-sizing: border-box;
     }
-    @media screen and (max-width: @notebook) {
-        .c-large-dialog .el-dialog {
-            .w(90%);
-        }
+}
+
+@media screen and (max-width: @notebook) {
+    .c-large-dialog.el-dialog {
+        .w(90%);
     }
-    @media screen and (max-width: @ipad-y) {
-        .c-large-dialog .el-dialog {
-            margin: 0 !important;
-            .size(100%);
-            max-height: none;
-            .h(100%);
-        }
+}
+
+@media screen and (max-width: @ipad-y) {
+    .c-large-dialog.el-dialog {
+        width: 100vw !important;
+        height: 100vh;
+        max-height: none;
+        margin: 0 !important;
+        border-radius: 0;
     }
 }

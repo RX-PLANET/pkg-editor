@@ -6,8 +6,7 @@
             <Upload
                 v-if="attachmentEnable"
                 @insert="insertAttachments"
-                :uploadFn="attachmentUploadFn"
-                :domain="attachmentCdnDomain"
+                :upload="attachmentUploadFn"
                 :accept="attachmentAccept"
                 :max="attachmentMax"
                 :sizeLimit="attachmentSizeLimit"
@@ -81,11 +80,6 @@ export default {
         attachmentUploadFn: {
             type: Function,
             default: () => {},
-        },
-        // 附件CDN拼接域名
-        attachmentCdnDomain: {
-            type: String,
-            default: "",
         },
         attachmentAccept: {
             type: String,

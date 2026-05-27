@@ -1,11 +1,11 @@
 <template>
     <div class="c-upload">
         <!-- 上传触发按钮 -->
-        <el-button type="primary" @click="dialogVisible = true" :disabled="!enable" size="large">
+        <el-button type="primary" @click="dialogVisible = true" size="large">
             <el-icon class="c-upload-trigger">
                 <UploadFilled />
             </el-icon>
-            <span>{{ buttonText }}</span>
+            <span>{{ text }}</span>
         </el-button>
 
         <!-- 弹出界面 -->
@@ -25,7 +25,7 @@
             <el-upload
                 list-type="picture-card"
                 :auto-upload="false"
-                :limit="uploadLimit"
+                :limit="max"
                 multiple
                 :file-list="fileList"
                 :on-change="change"
@@ -74,7 +74,7 @@
                         </div>
                         <!-- 勾选角标 -->
                         <label class="u-file-select-label" :class="{ 'is-unselected': !file.selected }">
-                            <span class="u-file-select-icon">✓</span>
+                            <el-icon class="u-file-select-icon"><CircleCheckFilled /></el-icon>
                         </label>
                     </div>
                 </template>
@@ -95,8 +95,8 @@
 
 <script>
 import { ElButton, ElDialog, ElIcon } from "element-plus";
-import { Plus, UploadFilled, Delete, ZoomIn } from "@element-plus/icons-vue";
-import { imgTypes, videoTypes } from "../../config/global.js";
+import { Plus, UploadFilled, Delete, ZoomIn, CircleCheckFilled } from "@element-plus/icons-vue";
+import GlobalConf from "../../config/global.js";
 import { showImgPreview } from "../assets/js/renderImgPreview.js";
 
 const fallbackFileIcon = require("../assets/img/file.svg");
@@ -117,87 +117,69 @@ export default {
         UploadFilled,
         Delete,
         ZoomIn,
+        CircleCheckFilled,
     },
     props: {
-        // 是否启用
-        enable: {
-            type: Boolean,
-            default: true,
-        },
         // 按钮文字
         text: {
             type: String,
-        },
-        // 仅图片上传
-        onlyImage: {
-            type: Boolean,
-            default: false,
+            default: "上传附件",
         },
         // 上传约束提示
         desc: {
             type: String,
+            default: "",
         },
         // 上传数量限制
-        limit: {
-            type: Number,
-            default: 10,
-        },
-        // 新字段名，兼容隔壁基础交互；未传时继续使用 limit。
         max: {
             type: Number,
-        },
-        accept: {
-            type: String,
-            default: "",
+            default: GlobalConf.uploadMax,
         },
         // 文件大小限制，单位 MB。
         sizeLimit: {
             type: Number,
-            default: 200,
+            default: GlobalConf.uploadSizeLimit,
+        },
+        // 上传文件类型
+        accept: {
+            type: String,
+            default: GlobalConf.uploadAccept,
         },
         // 上传方法
-        uploadFn: {
+        upload: {
             type: Function,
             required: true,
-        },
-        // CDN拼接域名
-        domain: {
-            type: String,
-            default: "",
         },
     },
     data: function () {
         return {
             dialogVisible: false,
 
+            // Element Plus 文件对象列表。上传成功后会补充 url、selected、is_img、is_video 等业务字段。
             fileList: [],
-            insertList: "",
+            // 最近一次点击“插入”时，根据选中文件拼接出的 HTML 字符串。
+            insertHtml: "",
         };
     },
     watch: {
         fileList: {
             deep: true,
             handler: function (newval) {
+                // update 表示内部文件列表变化，不等同于单个文件上传成功。
                 this.$emit("update", newval);
             },
         },
-        insertList: function (newval) {
+        insertHtml: function (newval) {
+            // htmlUpdate 只在 buildHTML 或 clear 改写 insertHtml 时触发。
             this.$emit("htmlUpdate", newval);
         },
     },
     computed: {
-        uploadLimit: function () {
-            return this.max || this.limit;
-        },
         uploadAccept: function () {
-            if (this.accept) return this.accept;
-            return this.onlyImage ? imgTypes.map((type) => `.${type}`).join(",") : "";
+            return this.accept === "*" ? "" : this.accept;
         },
         tipText: function () {
-            return this.desc || `一次最多同时上传${this.uploadLimit}个文件（单个文件不超过${this.sizeLimit}M）`;
-        },
-        buttonText: function () {
-            return this.text || "上传附件";
+            return this.desc || `一次最多同时上传${this.max}个文件（单个文件不超过${this.sizeLimit}M）`;
         },
         selectedCount: function () {
             return this.fileList.filter((file) => file.selected).length;
@@ -209,7 +191,7 @@ export default {
     methods: {
         change: function (file) {
             if (file && file.status != "success") {
-                // 判断大小
+                // el-upload 只负责选择文件；真实上传在这里交给外部传入的 upload(file.raw)。
                 const sizeInMB = (file.size || 0) / 1024 / 1024;
                 if (sizeInMB > this.sizeLimit) {
                     this.$message.error(`文件超出大小限制（${this.sizeLimit}M）`);
@@ -217,19 +199,8 @@ export default {
                     return;
                 }
 
-                // 分析文件类型
-                let ext = file.name?.toLowerCase().split(".").pop();
-                const is_img = imgTypes.includes(ext);
-                const is_video = videoTypes.includes(ext);
-
-                if (this.onlyImage && !is_img) {
-                    this.$message.warning("当前仅允许上传图片");
-                    this.removeFileByUid(file.uid);
-                    return;
-                }
-
                 file.status = "uploading";
-                this.uploadFn(file.raw)
+                this.upload(file.raw)
                     .then((res) => {
                         // 提醒
                         this.$message({
@@ -247,8 +218,9 @@ export default {
                         this.upsertFile({
                             ...file,
                             url,
-                            is_img,
-                            is_video,
+                            // 类型判断基于浏览器提供的 MIME，不再维护固定后缀白名单。
+                            is_img: this.isImageFile(file),
+                            is_video: this.isVideoFile(file),
                             selected: true,
                             status: "success",
                         });
@@ -272,24 +244,26 @@ export default {
         },
         preview: function (file, e) {
             if (!this.isImageFile(file) || !file.url) return;
+            // 复用现有图片预览逻辑，需要从卡片内找到真实 img 节点。
             const wrapper = e?.currentTarget?.closest?.(".u-file-wrapper");
             const img = wrapper?.querySelector?.("img.u-imgbox");
             if (!img) return;
             showImgPreview(img);
         },
         buildHTML: function () {
+            // HTML 只在点击“插入”时按当前 selected 状态生成。
             let list = [];
             this.fileList.forEach((file) => {
                 if (file.selected) {
                     this.isImageFile(file)
                         ? list.push(`<img src="${file.url}" />`)
-                        : file.is_video
+                        : this.isVideoFile(file)
                         ? list.push(`<video src="${file.url}" controls />`)
                         : list.push(`<a target="_blank" href="${file.url}">${file.name}</a>`);
                 }
             });
-            this.insertList = list.join(" \n");
-            return this.insertList;
+            this.insertHtml = list.join(" \n");
+            return this.insertHtml;
         },
         insert: function () {
             // 关闭窗口
@@ -313,7 +287,7 @@ export default {
         clear: function () {
             this.$refs.uploadbox?.clearFiles?.();
             this.fileList = [];
-            this.insertList = "";
+            this.insertHtml = "";
         },
         removeFile: function (fileList, uid) {
             fileList.forEach((file, i) => {
@@ -323,13 +297,21 @@ export default {
             });
         },
         onExceed: function () {
-            this.$message.warning(`一次最多上传 ${this.uploadLimit} 个文件`);
+            this.$message.warning(`一次最多上传 ${this.max} 个文件`);
         },
         isImageFile(file) {
             if (!file) return false;
             if (typeof file.is_img === "boolean") return file.is_img;
-            if (file.raw?.type?.startsWith("image/")) return true;
-            return imgTypes.includes(this.getFileExt(file));
+            return this.getFileMime(file).startsWith("image/");
+        },
+        isVideoFile(file) {
+            if (!file) return false;
+            if (typeof file.is_video === "boolean") return file.is_video;
+            return this.getFileMime(file).startsWith("video/");
+        },
+        getFileMime(file) {
+            // 优先读原始 File.type；已上传对象回填时也兼容顶层 type。
+            return String(file?.raw?.type || file?.type || "").toLowerCase();
         },
         getFileExt(file) {
             const origin = file?.name || file?.url || "";
@@ -350,11 +332,21 @@ export default {
                         ? payload.data[0]
                         : payload.data.url || payload.data.location || payload.data.name || payload.data));
             if (!name) return "";
-            if (/^(https?:)?\/\//.test(name) || name.startsWith("data:") || !this.domain) return name;
-            return `${this.domain.replace(/\/$/, "")}/${String(name).replace(/^\//, "")}`;
+
+            const normalizedUrl = String(name);
+            // 绝对 URL、data/blob 等带 scheme 的地址直接使用；只有相对路径才拼 CDN。
+            if (/^https?:\/\//i.test(normalizedUrl)) return normalizedUrl;
+            if (/^[a-z][a-z\d+\-.]*:/i.test(normalizedUrl) || normalizedUrl.startsWith("//")) return normalizedUrl;
+
+            const cdnRoot = String(GlobalConf.cdnRoot || "").replace(/\/+$/, "");
+            if (!cdnRoot) return normalizedUrl;
+
+            return `${cdnRoot}/${normalizedUrl.replace(/^\/+/, "")}`;
         },
         upsertFile(file) {
-            const index = this.fileList.findIndex((item) => item.uid === file.uid || (file.url && item.url === file.url));
+            const index = this.fileList.findIndex(
+                (item) => item.uid === file.uid || (file.url && item.url === file.url)
+            );
             if (index > -1) {
                 const list = [...this.fileList];
                 list.splice(index, 1, file);
