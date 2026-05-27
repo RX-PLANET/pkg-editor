@@ -7,7 +7,8 @@
         <slot></slot>
 
         <editor
-            id="tinymce"
+            :id="id"
+            :tinymce-script-src="tinymce_script_src"
             v-model="data"
             :init="init"
             class="c-tinymce"
@@ -60,18 +61,31 @@ export default {
     },
     emits: ["update:modelValue", "update:content", "update"],
     data: function () {
-        const tinymceRoot = this.resolveTinymceRoot();
+        const id = "rx-tinymce-editor";
+        const tinymceRoot = GlobalConf.cdnRoot + GlobalConf.tinymcePath;
         return {
             data: this.modelValue ?? this.content ?? "",
+
+            // 启动路径
+            tinymce_script_src: `${tinymceRoot}/tinymce.min.js`,
+            id,
+
             init: {
+
+                // JS插件路径
+                base_url: tinymceRoot,
+                suffix: ".min",
+
+                // CSS加载路径
+                content_css: `${tinymceRoot}/skins/content/default/content.min.css`,
+
                 // 选择器
-                selector: "#tinymce",
+                selector: `#${id}`,
 
                 // 语言
                 language: GlobalConf.tinymce.language || "zh_CN",
 
                 // 样式
-                content_css: `${tinymceRoot}/skins/content/default/content.min.css`,
                 body_class: "c-article c-article-editor c-article-tinymce",
                 height: this.height || 800,
                 autosave_ask_before_unload: false,
@@ -125,17 +139,6 @@ export default {
         },
     },
     methods: {
-        normalizeTinymceRoot: function (root) {
-            return String(root || "")
-                .trim()
-                .replace(/\/+$/, "");
-        },
-        resolveTinymceRoot: function () {
-            const globalRoot = typeof window !== "undefined" ? this.normalizeTinymceRoot(window.RX_TINYMCE_ROOT) : "";
-            if (globalRoot) return globalRoot;
-
-            return this.normalizeTinymceRoot(GlobalConf.tinymceRoot) || "/static/tinymce";
-        },
         setup: function (editor) {
             console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
         },
@@ -144,11 +147,11 @@ export default {
         },
         insertAttachments: function (data) {
             // eslint-disable-next-line no-undef
-            tinyMCE.editors["tinymce"].insertContent(data.html);
+            tinyMCE.editors[this.id].insertContent(data.html);
         },
         insertResource: function (data) {
             // eslint-disable-next-line no-undef
-            tinyMCE.editors["tinymce"].insertContent(data);
+            tinyMCE.editors[this.id].insertContent(data);
         },
         resolveUploadUrl: function (res) {
             const payload = res?.data || res || {};

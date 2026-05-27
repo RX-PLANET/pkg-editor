@@ -3,28 +3,21 @@
     <head>
         <meta charset="UTF-8" />
         <title>LaTeX 编辑器</title>
-        <!-- 动态加载资源 -->
         <script>
-            (function() {
-                // 从 URL 参数获取根路径
-                const urlParams = new URLSearchParams(window.location.search);
-                const ROOT = urlParams.get('root') || '';
-                const BASE_PATH = ROOT + '/plugins/latex/latex-dialog';
+            (function () {
+                const params = new URLSearchParams(window.location.search);
+                const dialogBase = params.get("dialogBase") || new URL("latex-dialog/", window.location.href).href;
+                window.LATEX_DIALOG_BASE = dialogBase;
 
-                // 存储到全局，供其他脚本使用
-                window.LATEX_DIALOG_BASE = BASE_PATH;
-
-                // 动态加载 CSS
-                function loadCSS(href) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = href;
+                function loadCSS(file) {
+                    const link = document.createElement("link");
+                    link.rel = "stylesheet";
+                    link.href = new URL(file, dialogBase).href;
                     document.head.appendChild(link);
                 }
 
-                // 加载样式
-                loadCSS(BASE_PATH + '/index.css');
-                loadCSS(BASE_PATH + '/katex.min.css');
+                loadCSS("index.css");
+                loadCSS("katex.min.css");
             })();
         </script>
     </head>
@@ -71,29 +64,26 @@
             <button id="insert" class="primary">插入</button>
         </div>
 
-        <!-- 动态加载 JS -->
         <script>
-            (function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const ROOT = urlParams.get('root') || '';
-                const BASE_PATH = ROOT + '/plugins/latex/latex-dialog';
+            (function () {
+                const params = new URLSearchParams(window.location.search);
+                const dialogBase = params.get("dialogBase") || new URL("latex-dialog/", window.location.href).href;
+                window.LATEX_DIALOG_BASE = dialogBase;
 
-                // 动态加载 JS
-                function loadScript(src) {
+                function loadScript(file) {
                     return new Promise((resolve, reject) => {
-                        const script = document.createElement('script');
-                        script.src = src;
+                        const script = document.createElement("script");
+                        script.src = new URL(file, dialogBase).href;
                         script.onload = resolve;
                         script.onerror = reject;
                         document.body.appendChild(script);
                     });
                 }
 
-                // 按顺序加载脚本
-                loadScript(BASE_PATH + '/katex.min.js')
-                    .then(() => loadScript(BASE_PATH + '/katex-standalone.js'))
-                    .then(() => loadScript(BASE_PATH + '/index.js'))
-                    .catch(err => console.error('脚本加载失败:', err));
+                loadScript("katex.min.js")
+                    .then(() => loadScript("katex-standalone.js"))
+                    .then(() => loadScript("index.js"))
+                    .catch((error) => console.error("LaTeX dialog script load failed:", error));
             })();
         </script>
     </body>

@@ -1,11 +1,11 @@
 {
     "name": "@2kog/pkg-editor",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Custom Tinymce、Article Renderer",
     "scripts": {
         "serve": "npm run dev",
         "dev:vue": "vue-cli-service serve",
-        "dev:tinymce": "serve -l 5120 ./tinymce",
+        "dev:tinymce": "node scripts/dev-tinymce.js",
         "dev": "npm run dev:vue & npm run dev:tinymce",
         "build": "npx lessc -x ./tinymce/skins/content/default/content.less ./tinymce/skins/content/default/content.min.css",
         "lint": "vue-cli-service lint"

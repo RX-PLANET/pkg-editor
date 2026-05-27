@@ -5,19 +5,47 @@
 + `Tinymce` 负责正文编辑、图片粘贴上传和最终内容维护。
 + `Upload` 作为 `prepend` 插槽插入到编辑器顶部，点击“插入”后会把上传组件生成的 HTML 交给 Tinymce 插入正文。
 
-## 1. index.html
+## 1. TinyMCE 静态资源
 
-接入项目需要先在 html 页面 `<head>` 中加载 TinyMCE 静态资源。
+`Editor` 内部复用 `Tinymce`，会自动加载 TinyMCE 主脚本、主题、插件和编辑器内容样式。接入项目不需要在 `index.html` 中手写 `<script>`。
 
-```html
-<script>
-    window.RX_TINYMCE_ROOT = "https://static.2kog.com/static/tinymce";
-</script>
-<script src="https://static.2kog.com/static/tinymce/tinymce.min.js"></script>
+默认使用线上静态资源：
+
+```env
+VUE_APP_STATIC_ROOT=https://static.2kog.com/
+VUE_APP_TINYMCE_PATH=/static/tinymce
 ```
 
-+ `window.RX_TINYMCE_ROOT` 是 TinyMCE 静态资源根路径，末尾不要带斜杠。
-+ 如果项目使用自己的 CDN，把示例地址换成当前项目的 `static/tinymce` 部署地址即可。
+最终会加载：
+
+```text
+https://static.2kog.com/static/tinymce/tinymce.min.js
+```
+
++ 第三方业务项目通过 npm 包引入时，读取的是业务项目自己的 `.env`，不会读取本仓库 `.env`。
++ 如果业务项目使用自己的静态域名，只需要在业务项目 `.env` 覆盖 `VUE_APP_STATIC_ROOT` 和 `VUE_APP_TINYMCE_PATH`。
++ 不要在业务项目本地开发环境配置 `VUE_APP_TINYMCE_DEV=true`，除非它自己也启动了对应的本地 TinyMCE 静态服务。
+
+本仓库开发调试 TinyMCE 资源时使用：
+
+```env
+VUE_APP_TINYMCE_DEV=true
+VUE_APP_TINYMCE_PORT=5120
+VUE_APP_STATIC_ROOT=https://static.2kog.com/
+VUE_APP_TINYMCE_PATH=/static/tinymce
+```
+
+配合：
+
+```bash
+npm run dev:tinymce
+```
+
+本地资源会服务在：
+
+```text
+http://localhost:5120/static/tinymce/tinymce.min.js
+```
 
 ## 2. 前端组件引用
 

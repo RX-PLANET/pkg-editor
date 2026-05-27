@@ -1,33 +1,14 @@
 // 加载 Tab 内容
+const dialogBase = window.LATEX_DIALOG_BASE || new URL("latex-dialog/", window.location.href).href;
+
 async function loadTabContent() {
-    // 获取当前目录的完整 URL
-    let baseUrl = window.location.href;
-
-    // 如果 URL 包含 .html 文件名，去掉文件名
-    if (baseUrl.includes('.html')) {
-        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
-    } else {
-        // 如果没有 .html，说明是目录，确保以 / 结尾
-        if (!baseUrl.endsWith('/')) {
-            baseUrl += '/';
-        }
-    }
-
     try {
-        // 使用完整 URL 加载
-        const usageUrl = baseUrl + 'usage-content.html';
-
-        let usageResponse = await fetch(usageUrl);
-
-        let usageHtml = await usageResponse.text();
+        const usageResponse = await fetch(new URL("usage-content.html", dialogBase).href);
+        const usageHtml = await usageResponse.text();
         document.querySelector('.tab-pane[data-tab="usage"]').innerHTML = usageHtml;
 
-        // 加载使用帮助
-        const helpUrl = baseUrl + 'help-content.html';
-
-        let helpResponse = await fetch(helpUrl);
-
-        let helpHtml = await helpResponse.text();
+        const helpResponse = await fetch(new URL("help-content.html", dialogBase).href);
+        const helpHtml = await helpResponse.text();
         document.querySelector('.tab-pane[data-tab="help"]').innerHTML = helpHtml;
 
         // 渲染示例中的 LaTeX

@@ -91,13 +91,13 @@ module.exports = {
         tinymce: {
             title: "Tinymce编辑器",
             entry: "src/pages/tinymce.js",
-            template: "public/tinymce.html",
+            template: "public/index.html",
             filename: "tinymce/index.html",
         },
         editor: {
             title: "Editor组合编辑器",
             entry: "src/pages/editor.js",
-            template: "public/tinymce.html",
+            template: "public/index.html",
             filename: "editor/index.html",
         },
         upload: {

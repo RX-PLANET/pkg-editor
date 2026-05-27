@@ -21,6 +21,12 @@ $ npm install
 $ npm run dev //本地调试
 ```
 
+## 刷新缓存
+```
+https://static.2kog.com/static/tinymce/tinymce.min.js
+https://static.2kog.com/static/tinymce/skins/content/default/content.min.css
+```
+
 
 ## Tinymce本体补充说明
 
