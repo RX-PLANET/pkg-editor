@@ -2,6 +2,14 @@
     <div class="c-upload-page">
         <h1>Upload 上传组件</h1>
 
+        <div class="m-mode">
+            <span>上传接口</span>
+            <el-radio-group v-model="uploadMode" size="small">
+                <el-radio-button label="local">本地模拟</el-radio-button>
+                <el-radio-button label="remote">线上测试</el-radio-button>
+            </el-radio-group>
+        </div>
+
         <Upload
             :upload="upload"
             :max="10"
@@ -31,6 +39,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Upload from "../components/Upload.vue";
 
 export default {
@@ -40,17 +49,27 @@ export default {
     },
     data: function () {
         return {
+            uploadMode: "local",
+            uploadUrl: "https://dev.api.iruxu.com/api/cms/admin/upload/tinymce",
             insertedHtml: "",
             fileList: [],
         };
     },
     methods: {
         upload: function (file) {
+            return this.uploadMode === "remote" ? this.remoteUpload(file) : this.localUpload(file);
+        },
+        localUpload: function (file) {
             return Promise.resolve({
                 data: {
                     url: URL.createObjectURL(file),
                 },
             });
+        },
+        remoteUpload: function (file) {
+            const formData = new FormData();
+            formData.append("file", file);
+            return axios.post(this.uploadUrl, formData);
         },
         onInsert: function (payload) {
             this.insertedHtml = payload?.html || "";
@@ -80,6 +99,17 @@ html {
         margin: 0 0 20px;
         font-size: 24px;
         font-weight: 600;
+    }
+
+    .m-mode {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+
+        span {
+            color: #606266;
+        }
     }
 
     .m-preview {

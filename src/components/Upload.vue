@@ -200,7 +200,7 @@ export default {
                 }
 
                 file.status = "uploading";
-                this.upload(file.raw)
+                Promise.resolve(this.upload(file.raw))
                     .then((res) => {
                         // 提醒
                         this.$message({
@@ -322,15 +322,8 @@ export default {
             return fileIconMap[ext] || fallbackFileIcon;
         },
         resolveUploadUrl(res) {
-            const payload = res?.data || res || {};
-            const name =
-                payload.location ||
-                payload.url ||
-                payload.name ||
-                (payload.data &&
-                    (Array.isArray(payload.data)
-                        ? payload.data[0]
-                        : payload.data.url || payload.data.location || payload.data.name || payload.data));
+            const payload = Array.isArray(res) ? res : res?.data || res || {};
+            const name = this.resolveUploadName(payload);
             if (!name) return "";
 
             const normalizedUrl = String(name);
@@ -342,6 +335,13 @@ export default {
             if (!cdnRoot) return normalizedUrl;
 
             return `${cdnRoot}/${normalizedUrl.replace(/^\/+/, "")}`;
+        },
+        resolveUploadName(payload) {
+            if (Array.isArray(payload)) return payload[0];
+            if (!payload || typeof payload !== "object") return payload;
+            if (payload.location || payload.url || payload.name) return payload.location || payload.url || payload.name;
+            if (payload.data !== undefined) return this.resolveUploadName(payload.data);
+            return "";
         },
         upsertFile(file) {
             const index = this.fileList.findIndex(
