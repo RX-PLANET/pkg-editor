@@ -60,7 +60,7 @@ import renderDirectory from "../assets/js/directory";
 import renderKatex from "../assets/js/katex";
 import renderCode from "../assets/js/code";
 import renderImgPreview from "../assets/js/renderImgPreview";
-import GlobalConf from "../../config/global.js";
+import GlobalConf from "../../config/runtime.js";
 
 export default {
     name: "ArticleRender",

@@ -29,7 +29,7 @@
 <script>
 import Editor from "@tinymce/tinymce-vue";
 import hljs_languages from "../assets/js/hljs_languages.js";
-import GlobalConf from "../../config/global.js";
+import GlobalConf from "../../config/runtime.js";
 
 function joinUrl(root, path) {
     const normalizedRoot = String(root || "").replace(/\/+$/, "");

@@ -96,16 +96,98 @@
 <script>
 import { ElButton, ElDialog, ElIcon } from "element-plus";
 import { Plus, UploadFilled, Delete, ZoomIn, CircleCheckFilled } from "@element-plus/icons-vue";
-import GlobalConf from "../../config/global.js";
+import GlobalConf from "../../config/runtime.js";
 import { showImgPreview } from "../assets/js/renderImgPreview.js";
+import fallbackFileIcon from "../assets/img/file.svg";
+import fileIcon3ds from "../assets/img/files/3ds.svg";
+import fileIconAac from "../assets/img/files/aac.svg";
+import fileIconAi from "../assets/img/files/ai.svg";
+import fileIconAvi from "../assets/img/files/avi.svg";
+import fileIconBmp from "../assets/img/files/bmp.svg";
+import fileIconCad from "../assets/img/files/cad.svg";
+import fileIconCdr from "../assets/img/files/cdr.svg";
+import fileIconCss from "../assets/img/files/css.svg";
+import fileIconDat from "../assets/img/files/dat.svg";
+import fileIconDll from "../assets/img/files/dll.svg";
+import fileIconDmg from "../assets/img/files/dmg.svg";
+import fileIconDoc from "../assets/img/files/doc.svg";
+import fileIconDocx from "../assets/img/files/docx.svg";
+import fileIconEps from "../assets/img/files/eps.svg";
+import fileIconFla from "../assets/img/files/fla.svg";
+import fileIconFlv from "../assets/img/files/flv.svg";
+import fileIconGif from "../assets/img/files/gif.svg";
+import fileIconHtml from "../assets/img/files/html.svg";
+import fileIconIndd from "../assets/img/files/indd.svg";
+import fileIconIso from "../assets/img/files/iso.svg";
+import fileIconJpg from "../assets/img/files/jpg.svg";
+import fileIconJs from "../assets/img/files/js.svg";
+import fileIconMidi from "../assets/img/files/midi.svg";
+import fileIconMov from "../assets/img/files/mov.svg";
+import fileIconMp3 from "../assets/img/files/mp3.svg";
+import fileIconMpg from "../assets/img/files/mpg.svg";
+import fileIconPdf from "../assets/img/files/pdf.svg";
+import fileIconPhp from "../assets/img/files/php.svg";
+import fileIconPng from "../assets/img/files/png.svg";
+import fileIconPpt from "../assets/img/files/ppt.svg";
+import fileIconPs from "../assets/img/files/ps.svg";
+import fileIconPsd from "../assets/img/files/psd.svg";
+import fileIconRaw from "../assets/img/files/raw.svg";
+import fileIconSql from "../assets/img/files/sql.svg";
+import fileIconSvg from "../assets/img/files/svg.svg";
+import fileIconTif from "../assets/img/files/tif.svg";
+import fileIconTxt from "../assets/img/files/txt.svg";
+import fileIconUnknown from "../assets/img/files/unknown.svg";
+import fileIconWmv from "../assets/img/files/wmv.svg";
+import fileIconXls from "../assets/img/files/xls.svg";
+import fileIconXlsx from "../assets/img/files/xlsx.svg";
+import fileIconXml from "../assets/img/files/xml.svg";
+import fileIconZip from "../assets/img/files/zip.svg";
 
-const fallbackFileIcon = require("../assets/img/file.svg");
-const fileIconContext = require.context("../assets/img/files", false, /\.svg$/);
-const fileIconMap = fileIconContext.keys().reduce((map, key) => {
-    const ext = key.replace("./", "").replace(".svg", "");
-    map[ext] = fileIconContext(key);
-    return map;
-}, {});
+const fileIconMap = {
+    "3ds": fileIcon3ds,
+    aac: fileIconAac,
+    ai: fileIconAi,
+    avi: fileIconAvi,
+    bmp: fileIconBmp,
+    cad: fileIconCad,
+    cdr: fileIconCdr,
+    css: fileIconCss,
+    dat: fileIconDat,
+    dll: fileIconDll,
+    dmg: fileIconDmg,
+    doc: fileIconDoc,
+    docx: fileIconDocx,
+    eps: fileIconEps,
+    fla: fileIconFla,
+    flv: fileIconFlv,
+    gif: fileIconGif,
+    html: fileIconHtml,
+    indd: fileIconIndd,
+    iso: fileIconIso,
+    jpg: fileIconJpg,
+    js: fileIconJs,
+    midi: fileIconMidi,
+    mov: fileIconMov,
+    mp3: fileIconMp3,
+    mpg: fileIconMpg,
+    pdf: fileIconPdf,
+    php: fileIconPhp,
+    png: fileIconPng,
+    ppt: fileIconPpt,
+    ps: fileIconPs,
+    psd: fileIconPsd,
+    raw: fileIconRaw,
+    sql: fileIconSql,
+    svg: fileIconSvg,
+    tif: fileIconTif,
+    txt: fileIconTxt,
+    unknown: fileIconUnknown,
+    wmv: fileIconWmv,
+    xls: fileIconXls,
+    xlsx: fileIconXlsx,
+    xml: fileIconXml,
+    zip: fileIconZip,
+};
 
 export default {
     name: "Upload",

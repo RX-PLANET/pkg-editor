@@ -128,4 +128,5 @@ const selectedUrls = fileList.filter((file) => file.selected).map((file) => file
 
 - 对话框小于 `@ipad-y` 断点时全屏显示，样式在 `src/assets/css/upload.less` 的 `.c-large-dialog.el-dialog`。
 - 图片文件使用缩略图展示并支持预览；非图片文件使用 `src/assets/img/files/*.svg` 的后缀图标，找不到时使用 `file.svg`。
+- 这个包的 `.vue` 源码可能被 webpack 或 Vite 项目直接引入。组件内的本地资源加载应使用 ESM 静态 `import`，不要使用 webpack 专属的 `require.context`，也不要使用 Vite 专属的 `import.meta.glob`。
 - 关闭弹窗会清空 `fileList`，因此父级会收到一次空列表 `update`。
