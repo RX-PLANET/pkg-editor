@@ -2,7 +2,7 @@ name: Deploy to OSS
 on:
     push:
         tags:
-            - "v*.*.*-master"
+            - "v*.*.*"
         # branches:
             # - master
 jobs:
