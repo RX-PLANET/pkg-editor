@@ -60,6 +60,7 @@ import renderDirectory from "../assets/js/directory";
 import renderKatex from "../assets/js/katex";
 import renderCode from "../assets/js/code";
 import renderImgPreview from "../assets/js/renderImgPreview";
+import GlobalConf from "../../config/global.js";
 
 export default {
     name: "ArticleRender",
@@ -67,7 +68,7 @@ export default {
         // 内容
         content: String,
 
-        // 拼接相对路径地址的图片，需要自带协议
+        // 旧字段兼容：相对路径 CDN 拼接统一使用 config/global.js 的 cdnRoot。
         cdnDomain: {
             type: String,
             default: "",
@@ -131,8 +132,8 @@ export default {
                 // 2. 然后执行 iframe 白名单过滤
                 data = execFilterIframe(data, this.iframeWhitelist);
 
-                // 3. 处理图片懒加载
-                data = execLazyload(data, this.cdnDomain);
+                // 3. 处理图片懒加载与相对路径 CDN 拼接
+                data = execLazyload(data, GlobalConf.cdnRoot);
 
                 // 4. 最后处理链接
                 data = execFilterLink(data, this.linkWhitelist, this.linkStrict);
