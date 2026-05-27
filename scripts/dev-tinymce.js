@@ -36,9 +36,9 @@ function normalizePath(value) {
         .replace(/\/+$/, "");
 }
 
-function getPort(cdnRoot) {
+function getPort(staticRoot) {
     try {
-        const url = new URL(cdnRoot);
+        const url = new URL(staticRoot);
         return url.port || (url.protocol === "https:" ? "443" : "80");
     } catch (error) {
         return process.env.VUE_APP_TINYMCE_PORT || "5120";
@@ -61,7 +61,7 @@ process.env.NODE_ENV = "development";
 
 const GlobalConf = require(path.join(root, "config/global.js"));
 const tinymcePath = normalizePath(GlobalConf.tinymcePath);
-const port = getPort(GlobalConf.cdnRoot);
+const port = getPort(GlobalConf.staticRoot);
 
 setupServeRoot(tinymcePath);
 

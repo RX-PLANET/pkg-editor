@@ -15,6 +15,8 @@ uploadAccept: "*"
 cdnRoot: "https://cdn.2kog.com/"
 ```
 
+`cdnRoot` 来自 `VUE_APP_CDN_ROOT`，只用于上传文件、正文图片等业务资源的相对路径补全。TinyMCE 的 JS、CSS、插件和皮肤等代码资源使用 `staticRoot`，也就是 `VUE_APP_STATIC_ROOT` 或本地 `VUE_APP_TINYMCE_DEV` 服务。
+
 `uploadAccept: "*"` 表示前端选择器不限制文件类型。其它值直接透传给原生 `accept`，例如 `image/*,video/*,.pdf,.zip`。
 
 ## 选择与上传流程

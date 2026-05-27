@@ -25,6 +25,8 @@ import Upload from "@2kog/pkg-editor/src/components/Upload.vue";
 
 `upload(file)` 可以返回 Promise，也可以直接返回同步结果。返回值里需要能解析出文件地址，支持 `url`、`location`、`name`、`data`、数组第一项等常见结构；相对路径会自动拼接 `GlobalConf.cdnRoot`。
 
+`GlobalConf.cdnRoot` 来自 `VUE_APP_CDN_ROOT`，默认是 `https://cdn.2kog.com/`。它只用于上传文件、正文图片等业务资源；TinyMCE 的 JS、CSS、插件和皮肤等代码资源使用 `VUE_APP_STATIC_ROOT`。
+
 
 ## 3. 事件与对象
 

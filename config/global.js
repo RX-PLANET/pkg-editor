@@ -2,14 +2,14 @@ module.exports = {
 
     // CDN拼接(用于处理上传为相对路径时拼接的cdn前缀)
     /*------------------*/
-    cdnRoot: process.env.VUE_APP_TINYMCE_DEV === "true"
+    cdnRoot: `${process.env.VUE_APP_CDN_ROOT || "https://cdn.2kog.com/"}`,
+    staticRoot: process.env.VUE_APP_TINYMCE_DEV === "true"
         ? `http://localhost:${process.env.VUE_APP_TINYMCE_PORT || 5120}`
         : `${process.env.VUE_APP_STATIC_ROOT || "https://static.2kog.com/"}`,
 
-
     // 编辑器
     /*------------------*/
-    tinymcePath: `${process.env.VUE_APP_TINYMCE_PATH || "/static/tinymce"}`, // tinymce路径(相对于cdnRoot)
+    tinymcePath: `${process.env.VUE_APP_TINYMCE_PATH || "/static/tinymce"}`, // tinymce路径(相对于staticRoot)
     tinymce: {
         language: "zh_CN",
         plugins: [

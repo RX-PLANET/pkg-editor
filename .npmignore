@@ -1,12 +1,9 @@
 .github
 .husky
-docs
 node_modules
 public
 /tinymce/
 .editorconfig
-.env.development
-.env.production
 .eslintrc
 .gitignore
 .npmignore

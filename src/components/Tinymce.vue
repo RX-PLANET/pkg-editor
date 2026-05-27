@@ -31,6 +31,12 @@ import Editor from "@tinymce/tinymce-vue";
 import hljs_languages from "../assets/js/hljs_languages.js";
 import GlobalConf from "../../config/global.js";
 
+function joinUrl(root, path) {
+    const normalizedRoot = String(root || "").replace(/\/+$/, "");
+    const normalizedPath = String(path || "").replace(/^\/+/, "");
+    return normalizedPath ? `${normalizedRoot}/${normalizedPath}` : normalizedRoot;
+}
+
 export default {
     name: "Tinymce",
     props: {
@@ -62,7 +68,7 @@ export default {
     emits: ["update:modelValue", "update:content", "update"],
     data: function () {
         const id = "rx-tinymce-editor";
-        const tinymceRoot = GlobalConf.cdnRoot + GlobalConf.tinymcePath;
+        const tinymceRoot = joinUrl(GlobalConf.staticRoot, GlobalConf.tinymcePath);
         return {
             data: this.modelValue ?? this.content ?? "",
 

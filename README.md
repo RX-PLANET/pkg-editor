@@ -2,7 +2,14 @@
 
 ## 使用逻辑
 + 如果是内部项目，使用npm安装模式即可
-+ 如果是外部项目，拷贝整个项目到外部项目中，一些常见的定制修改config下的配置即可，如配色、插件调用等
++ 如果是外部项目，在.env中替换为正确的静态资源域名、上传资源域名和路径，自行配置deploy workflow
+```
+VUE_APP_STATIC_ROOT=https://static.2kog.com/
+VUE_APP_CDN_ROOT=https://cdn.2kog.com/
+VUE_APP_TINYMCE_PATH=/static/tinymce
+```
+
+`VUE_APP_STATIC_ROOT` 只用于 TinyMCE 的 JS、CSS、插件和皮肤等代码资源；`VUE_APP_CDN_ROOT` 用于上传文件、正文图片等业务资源的相对路径补全。
 
 ## 前端人员组件使用文档
 + [Article](./docs/usage/article.md)
@@ -42,5 +49,4 @@ https://static.2kog.com/static/tinymce/skins/content/default/content.min.css
 1. tinymce/icons/custom/icons.js 添加svg图标,需设置尺寸,注意视口大小,移除换行符等
 2. tinymce/plugins目录，复制videox(input),foldtext(null)目录作为参考新建插件目录，替换videox为新插件名
 3. 编辑器配置中激活插件和添加工具栏项
-
 

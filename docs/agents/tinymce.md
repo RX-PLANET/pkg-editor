@@ -22,6 +22,7 @@
 
 ```env
 VUE_APP_STATIC_ROOT=https://static.2kog.com/
+VUE_APP_CDN_ROOT=https://cdn.2kog.com/
 VUE_APP_TINYMCE_PATH=/static/tinymce
 VUE_APP_TINYMCE_DEV=true
 VUE_APP_TINYMCE_PORT=5120
@@ -31,17 +32,26 @@ VUE_APP_TINYMCE_PORT=5120
 
 ```env
 VUE_APP_STATIC_ROOT=https://static.2kog.com/
+VUE_APP_CDN_ROOT=https://cdn.2kog.com/
 VUE_APP_TINYMCE_PATH=/static/tinymce
 ```
 
-如果业务库使用自己的静态域名，只需要改 `VUE_APP_STATIC_ROOT` 和 `VUE_APP_TINYMCE_PATH`。
+如果业务库使用自己的域名，需要改 `VUE_APP_STATIC_ROOT`、`VUE_APP_CDN_ROOT` 和 `VUE_APP_TINYMCE_PATH`。
+
+域名分工固定如下：
+
++ `VUE_APP_STATIC_ROOT`：只用于 TinyMCE 本体、主题、插件、皮肤和内容样式等 JS/CSS 代码资源。
++ `VUE_APP_CDN_ROOT`：只用于上传文件、正文图片等业务资源的相对路径补全。
++ `VUE_APP_TINYMCE_DEV=true`：只影响 `staticRoot`，用于把 TinyMCE 代码资源切到本地调试服务；不能影响 `cdnRoot`。
 
 ### 根路径生成
 
-`config/global.js` 输出两个值：
+`config/global.js` 输出三个和资源相关的值：
 
 ```js
-cdnRoot: process.env.VUE_APP_TINYMCE_DEV === "true"
+cdnRoot: `${process.env.VUE_APP_CDN_ROOT || "https://cdn.2kog.com/"}`,
+
+staticRoot: process.env.VUE_APP_TINYMCE_DEV === "true"
     ? `http://localhost:${process.env.VUE_APP_TINYMCE_PORT || 5120}`
     : `${process.env.VUE_APP_STATIC_ROOT || "https://static.2kog.com/"}`,
 
@@ -51,7 +61,7 @@ tinymcePath: `${process.env.VUE_APP_TINYMCE_PATH || "/static/tinymce"}`
 `Tinymce.vue` 中拼出：
 
 ```js
-const tinymceRoot = GlobalConf.cdnRoot + GlobalConf.tinymcePath;
+const tinymceRoot = joinUrl(GlobalConf.staticRoot, GlobalConf.tinymcePath);
 ```
 
 本仓库本地开发时，期望结果是：
@@ -66,7 +76,7 @@ http://localhost:5120/static/tinymce
 https://static.2kog.com/static/tinymce
 ```
 
-如果 `cdnRoot` 末尾带 `/` 且 `tinymcePath` 开头带 `/`，URL 中可能出现双斜杠。浏览器通常可访问，但后续整理代码时可以统一做 URL normalize。
+`joinUrl()` 会去掉 `staticRoot` 末尾和 `tinymcePath` 开头多余的 `/`，避免生成 `https://static.2kog.com//static/tinymce`。
 
 ### TinyMCE 主体加载
 
@@ -131,7 +141,7 @@ node scripts/dev-tinymce.js
 
 1. 读取本仓库 `.env`。
 2. 设置 `NODE_ENV=development`。
-3. 加载 `config/global.js`，拿到 `cdnRoot` 和 `tinymcePath`。
+3. 加载 `config/global.js`，拿到 `staticRoot` 和 `tinymcePath`。
 4. 把本仓库 `tinymce/` 目录软链到临时静态根目录下的 `tinymcePath`。
 5. 使用 `npx serve -l <port>` 启动静态服务。
 
@@ -153,10 +163,11 @@ tinymce.PluginManager.add("latex", function (editor, url) {
 });
 ```
 
-LaTeX 插件使用这个 `url` 打开弹窗：
+LaTeX 插件会先归一化这个 `url`，再打开弹窗。这样即使 npm 包消费方或 TinyMCE 缓存给到的是 `/plugins/latex`，也会基于 `editor.editorManager.baseURL` 修正为 `staticRoot + tinymcePath + /plugins/latex`：
 
 ```js
-const dialogBase = `${url}/latex-dialog/`;
+const pluginBase = normalizePluginUrl(url);
+const dialogBase = `${pluginBase}/latex-dialog/`;
 
 editor.windowManager.openUrl({
     title: "数学公式",
@@ -302,6 +313,8 @@ UploadService.uploadToOSS(data, { bucket, dist });
 ```
 
 所以前端 `Tinymce.vue` 优先读取 `res.data.location`，拿到完整 CDN 地址后插入编辑器。
+
+如果上传接口只返回相对路径，`Tinymce.vue` 会使用 `GlobalConf.cdnRoot` 补全；这个值来自 `VUE_APP_CDN_ROOT`，不能使用 `VUE_APP_STATIC_ROOT`。TinyMCE 的 JS、CSS 等代码资源才走 `staticRoot`。
 
 ### 返回值约束
 

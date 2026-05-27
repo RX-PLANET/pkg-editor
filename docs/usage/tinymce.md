@@ -8,6 +8,7 @@
 
 ```env
 VUE_APP_STATIC_ROOT=https://static.2kog.com/
+VUE_APP_CDN_ROOT=https://cdn.2kog.com/
 VUE_APP_TINYMCE_PATH=/static/tinymce
 ```
 
@@ -18,7 +19,9 @@ https://static.2kog.com/static/tinymce/tinymce.min.js
 ```
 
 + 第三方业务项目通过 npm 包引入时，读取的是业务项目自己的 `.env`，不会读取本仓库 `.env`。
-+ 如果业务项目使用自己的静态域名，只需要在业务项目 `.env` 覆盖 `VUE_APP_STATIC_ROOT` 和 `VUE_APP_TINYMCE_PATH`。
++ `VUE_APP_STATIC_ROOT` 只用于 TinyMCE 的 JS、CSS、插件和皮肤等代码资源。
++ `VUE_APP_CDN_ROOT` 用于上传文件、正文图片等业务资源的相对路径补全。
++ 如果业务项目使用自己的域名，需要在业务项目 `.env` 覆盖 `VUE_APP_STATIC_ROOT`、`VUE_APP_CDN_ROOT` 和 `VUE_APP_TINYMCE_PATH`。
 + 不要在业务项目本地开发环境配置 `VUE_APP_TINYMCE_DEV=true`，除非它自己也启动了对应的本地 TinyMCE 静态服务。
 
 本仓库开发调试 TinyMCE 资源时使用：
@@ -27,6 +30,7 @@ https://static.2kog.com/static/tinymce/tinymce.min.js
 VUE_APP_TINYMCE_DEV=true
 VUE_APP_TINYMCE_PORT=5120
 VUE_APP_STATIC_ROOT=https://static.2kog.com/
+VUE_APP_CDN_ROOT=https://cdn.2kog.com/
 VUE_APP_TINYMCE_PATH=/static/tinymce
 ```
 

@@ -3,12 +3,7 @@
         <Tinymce
             v-model="content"
 
-            :tinymceUploadFn="uploadFn"
-            :tinymceAssetsDomain="domain"
-
-            :attachmentEnable="true"
-            :attachmentUploadFn="uploadFn"
-            :attachmentCdnDomain="domain"
+            :upload="uploadFn"
         />
     </div>
 </template>
@@ -20,7 +15,6 @@ export default {
     data: function () {
         return {
             content: "",
-            domain: "https://cdn.2kog.com",
             uploadUrl: "https://dev.api.iruxu.com/api/cms/admin/upload/tinymce",
         };
     },

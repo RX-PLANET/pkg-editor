@@ -98,6 +98,8 @@ module.exports = {
 };
 ```
 
+`cdnRoot` 来自 `VUE_APP_CDN_ROOT`，默认是 `https://cdn.2kog.com/`。它只用于上传文件、正文图片等业务资源；TinyMCE 的 JS、CSS、插件和皮肤等代码资源使用 `VUE_APP_STATIC_ROOT`。
+
 如果正文中有相对图片地址，渲染时会按 `cdnRoot` 拼成完整地址。`cdnRoot` 需要带协议。
 
 如果正文已经保存的是完整 URL，则不会再拼接 `cdnRoot`。

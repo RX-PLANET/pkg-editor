@@ -164,6 +164,8 @@ loading="lazy"
 config/global.js -> cdnRoot
 ```
 
+`cdnRoot` 来自 `VUE_APP_CDN_ROOT`，默认是 `https://cdn.2kog.com/`。它只用于上传文件、正文图片等业务资源的相对路径补全；TinyMCE 的 JS、CSS、插件和皮肤等代码资源使用 `VUE_APP_STATIC_ROOT`。
+
 当 `GlobalConf.cdnRoot` 存在时，才会处理 `src` 和 `data-src` 的相对路径：
 
 - `http://`、`https://`、`//`、`data:`、`blob:`、`mailto:`、`tel:`、`javascript:` 不拼接。
